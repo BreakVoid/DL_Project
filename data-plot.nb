@@ -1,0 +1,180 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      6238,        172]
+NotebookOptionsPosition[      5672,        148]
+NotebookOutlinePosition[      6036,        164]
+CellTagsIndexPosition[      5993,        161]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "dataPath", " ", "=", " ", 
+   "\"\</Users/Songyu/Project/DL_Project/toneclassifier/train\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"listSubSets", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<one\>\"", ",", "\"\<two\>\"", ",", "\"\<three\>\"", ",", 
+     "\"\<four\>\""}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "plotPath", "=", 
+   "\"\</Users/Songyu/Project/DL_Project/toneclassifier/train-plot\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CreateDirectory", "[", "plotPath", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.6926535712421217`*^9, 3.6926536513647757`*^9}, {
+  3.6926537426799917`*^9, 3.6926537440171833`*^9}, {3.692654098336092*^9, 
+  3.692654107714459*^9}, {3.692655394712206*^9, 3.692655407137631*^9}}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "CreateDirectory","filex",
+   "\"\\!\\(\\*RowBox[{\\\"\\\\\\\"/Users/Songyu/toneclassifier/train-plot\\\\\
+\\\"\\\"}]\\) already exists.\"",2,23,8,27056715962288385032,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.692654112442583*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Do", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"dirSubset", "=", 
+     RowBox[{"dataPath", "<>", "\"\</\>\"", "<>", "label"}]}], ";", 
+    RowBox[{"plotSubset", "=", 
+     RowBox[{"plotPath", "<>", "\"\</\>\"", "<>", "label"}]}], ";", 
+    RowBox[{"CreateDirectory", "[", "plotSubset", "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"rawDataFileNames", "=", 
+     RowBox[{"FileNames", "[", 
+      RowBox[{"\"\<*\>\"", ",", "dirSubset", ",", "Infinity"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"plotName", "=", 
+        RowBox[{
+         RowBox[{"FileBaseName", "[", "dataFileName", "]"}], "<>", 
+         RowBox[{"FileExtension", "[", "dataFileName", "]"}], "<>", 
+         "\"\<.png\>\""}]}], ";", 
+       RowBox[{"plotFullPath", "=", 
+        RowBox[{"plotSubset", "<>", "\"\</\>\"", "<>", "plotName"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"data", "=", 
+        RowBox[{"ReadList", "[", "dataFileName", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"imgPlot", "=", 
+        RowBox[{"ListLinePlot", "[", 
+         RowBox[{"data", ",", 
+          RowBox[{"ImageSize", "\[Rule]", "Full"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Export", "[", 
+        RowBox[{"plotFullPath", ",", "imgPlot", ",", "\"\<PNG\>\""}], "]"}]}],
+       ",", 
+      RowBox[{"{", 
+       RowBox[{"dataFileName", ",", "rawDataFileNames"}], "}"}]}], "]"}]}], 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{"label", ",", "listSubSets"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.692654128677931*^9, 3.692654154742487*^9}, {
+  3.692654197953061*^9, 3.6926542122347927`*^9}, {3.692654335231409*^9, 
+  3.692654511762422*^9}, {3.69265454418926*^9, 3.692654728638233*^9}, {
+  3.692654820922262*^9, 3.692654833715817*^9}, {3.6926548908386993`*^9, 
+  3.692654900005916*^9}, {3.6926549552499037`*^9, 3.69265496278191*^9}, {
+  3.692655007898189*^9, 3.692655039802402*^9}, {3.6926551226517963`*^9, 
+  3.6926551454841967`*^9}}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "CreateDirectory","filex",
+   "\"\\!\\(\\*RowBox[{\\\"\\\\\\\"/Users/Songyu/toneclassifier/train-plot/\
+one\\\\\\\"\\\"}]\\) already exists.\"",2,32,114,27056715962288385032,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{{3.692654718115697*^9, 3.692654731902212*^9}, 
+   3.692654834350366*^9, 3.6926549004795227`*^9, 3.692654963795265*^9, 
+   3.6926550429223948`*^9, 3.6926551506623363`*^9}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "CreateDirectory","filex",
+   "\"\\!\\(\\*RowBox[{\\\"\\\\\\\"/Users/Songyu/toneclassifier/train-plot/\
+two\\\\\\\"\\\"}]\\) already exists.\"",2,32,115,27056715962288385032,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{{3.692654718115697*^9, 3.692654731902212*^9}, 
+   3.692654834350366*^9, 3.6926549004795227`*^9, 3.692654963795265*^9, 
+   3.6926550429223948`*^9, 3.692655169153306*^9}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "CreateDirectory","filex",
+   "\"\\!\\(\\*RowBox[{\\\"\\\\\\\"/Users/Songyu/toneclassifier/train-plot/\
+three\\\\\\\"\\\"}]\\) already exists.\"",2,32,116,27056715962288385032,
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{{3.692654718115697*^9, 3.692654731902212*^9}, 
+   3.692654834350366*^9, 3.6926549004795227`*^9, 3.692654963795265*^9, 
+   3.6926550429223948`*^9, 3.692655186277688*^9}],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General","stop",
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"CreateDirectory\\\", \\\
+\"::\\\", \\\"filex\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"",2,32,117,27056715962288385032,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{{3.692654718115697*^9, 3.692654731902212*^9}, 
+   3.692654834350366*^9, 3.6926549004795227`*^9, 3.692654963795265*^9, 
+   3.6926550429223948`*^9, 3.6926551862928743`*^9}]
+}, Open  ]]
+},
+WindowSize->{808, 651},
+WindowMargins->{{4, Automatic}, {Automatic, 4}},
+FrontEndVersion->"11.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (2016\:5e749\
+\:670821\:65e5)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 829, 21, 109, "Input"],
+Cell[1412, 45, 291, 6, 24, "Message"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1740, 56, 2069, 47, 348, "Input"],
+Cell[3812, 105, 445, 8, 24, "Message"],
+Cell[4260, 115, 443, 8, 24, "Message"],
+Cell[4706, 125, 449, 9, 24, "Message"],
+Cell[5158, 136, 498, 9, 24, "Message"]
+}, Open  ]]
+}
+]
+*)
+

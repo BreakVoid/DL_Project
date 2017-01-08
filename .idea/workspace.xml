@@ -2,11 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e80b1dd4-609b-49ca-af86-bf79c9495f33" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/ignore-low-eneg-frequence.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/interpolation.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/trim-interpolation.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-plot.nb" afterPath="$PROJECT_DIR$/data-plot.nb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mao4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mao4f0.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/men4engy.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/men4engy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/men4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/men4f0.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/meng4engy.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/meng4engy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/meng4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/meng4f0.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mi4engy.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mi4engy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mi4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mi4f0.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/miao4engy.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/miao4engy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/miao4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/miao4f0.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mo4engy.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mo4engy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mo4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mo4f0.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mu4engy.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mu4engy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mu4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/mu4f0.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/na4engy.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/na4engy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/na4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/na4f0.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/nai4engy.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/nai4engy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/nai4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/nai4f0.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/nan4engy.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/nan4engy.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/nan4f0.png" afterPath="$PROJECT_DIR$/data-process-output/trim-interpolation/train-plot/four/nan4f0.png" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -63,7 +77,7 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
+            <state relative-caret-position="586">
               <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
               <folding />
             </state>
@@ -477,7 +491,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="773" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24609375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -486,7 +500,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -540,7 +554,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
+        <state relative-caret-position="586">
           <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
           <folding />
         </state>

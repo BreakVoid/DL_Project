@@ -12,8 +12,8 @@ def LoadAndProcessData(mode, save=False):
 
 
 def LoadTrainData(save=False):
-    return LoadAndProcessData('train')
+    return LoadAndProcessData('train', save)
 
 
 def LoadValData(save=False):
-    return LoadAndProcessData('val')
+    return LoadAndProcessData('val', save)

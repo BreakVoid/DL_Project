@@ -42,7 +42,6 @@ def LoadData(mode = 'train'):
             Engy.append(engy)
             F0.append(f0)
             y.append(label)
-    print data_len_max
     return Engy, F0, y
 
 

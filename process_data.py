@@ -11,9 +11,9 @@ def LoadAndProcessData(mode, save=False):
     return Engy, F0, y
 
 
-def LoadTrainData(save=False):
+def LoadAndProcessTrainData(save=False):
     return LoadAndProcessData('train', save)
 
 
-def LoadValData(save=False):
+def LoadAndProcessValData(save=False):
     return LoadAndProcessData('val', save)

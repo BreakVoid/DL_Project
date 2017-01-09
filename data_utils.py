@@ -13,8 +13,6 @@ labels = {
     'four': 3
 }
 
-result_len = 200
-
 def LoadData(mode = 'train'):
     data_path = train_data_path
     if mode == 'val':
@@ -109,7 +107,7 @@ def TrimData(Engy, F0):
         resF0.append(copy.copy(f0[start:end]))
     return resEngy, resF0
 
-def NormalizeDataLengthWithInterpolation(Engy, F0):
+def NormalizeDataLengthWithInterpolation(Engy, F0, result_len=200):
     data_num = len(Engy)
     if data_num != len(F0):
         raise ValueError("the number of input data mismatched. len(Engy)==%d and len(F0)==%d" % (len(Engy), len(F0)))
@@ -161,10 +159,3 @@ def SaveData(Engy, F0, y, mode='train'):
     engy_file.close()
     f0_file.close()
     y_file.close()
-
-if __name__ == "__main__":
-    Engy, F0, y = LoadData('train')
-    Engy, F0 = IgnoreLowEnergyFrequence(Engy, F0)
-    Engy, F0 = TrimData(Engy, F0)
-    Engy, F0 = NormalizeDataLengthWithInterpolation(Engy, F0)
-    SaveData(Engy, F0, y, 'train')

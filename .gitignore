@@ -88,3 +88,9 @@ ENV/
 # Rope project settings
 .ropeproject
 
+train_engys
+train_f0s
+train_labels
+val_engys
+val_f0s
+val_labels

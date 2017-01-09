@@ -5,7 +5,7 @@ dataLabel = ["one", "two", "three", "four"]
 
 dataRoot = "../toneclassifier/train"
 
-normalLen = 1000
+normalLen = 200
 
 for label in dataLabel:
     subsetPath = dataRoot + "/" + label
@@ -60,7 +60,7 @@ for label in dataLabel:
         newF0 = func(newX)
 
         engyfile = open("../data-process-output/trim-interpolation/train/" + label + "/" + dataname + ".engy", "w")
-        f0file = open ("../data-process-output/trim-interpolation/train/" + label + "/" + dataname + ".f0", "w")
+        f0file = open("../data-process-output/trim-interpolation/train/" + label + "/" + dataname + ".f0", "w")
         for i in xrange(normalLen):
             engyfile.write("%.5f\n" % newEngy[i])
             f0file.write("%.5f\n" % newF0[i])

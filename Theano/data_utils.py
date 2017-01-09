@@ -2,7 +2,7 @@ import os
 import copy
 import scipy.interpolate as spi
 
-data_root = 'toneclassifier'
+data_root = '../toneclassifier'
 train_data_path = "%s/train" % data_root
 val_data_path = "%s/test_new" % data_root
 

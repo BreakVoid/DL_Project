@@ -1,6 +1,7 @@
 import os
 import copy
 import scipy.interpolate as spi
+import numpy
 
 data_root = '../toneclassifier'
 train_data_path = "%s/train" % data_root
@@ -67,6 +68,15 @@ def IgnoreLowEnergyFrequence(Engy, F0):
             if f0[j] < 1e-4:
                 zero_freq_count += 1
                 zero_freq_engy_sum += engy[j]
+            else:
+                break
+
+        for j in xrange(data_len - 1, -1, -1):
+            if f0[j] < 1e-4:
+                zero_freq_count += 1
+                zero_freq_engy_sum += engy[j]
+            else:
+                break
 
         mean_engy = zero_freq_engy_sum / zero_freq_count
         for j in xrange(data_len):
@@ -167,3 +177,9 @@ def SaveData(Engy, F0, y, mode='train'):
     engy_file.close()
     f0_file.close()
     y_file.close()
+
+
+def unison_shuffled_copies(a, b):
+    assert len(a) == len(b)
+    p = numpy.random.permutation(len(a))
+    return a[p], b[p]

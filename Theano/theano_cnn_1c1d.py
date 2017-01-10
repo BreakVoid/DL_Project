@@ -1,4 +1,5 @@
 import theano.tensor as T
+from theano.tensor.signal import pool
 
 def conv1d_multi_channel_single_row(input, filters, image_shape=None, filter_shape=None,
                border_mode='valid', subsample=(1,), filter_flip=True):
@@ -30,3 +31,10 @@ def conv1d_multi_channel_single_row(input, filters, image_shape=None, filter_sha
         subsample=(1, subsample[0]), border_mode=border_mode,
         filter_flip=filter_flip)
     return conved[:, :, 0, :]
+def pool_1d(input, ds, ignore_border=None, st=None, padding=(0, 0), mode='max'):
+    """
+    using conv2d with width == 1
+    """
+    input_e = input.dimshuffle(0, 1, 'x', 2)
+    pooled = pool.pool_2d(input=input_e, ds=(1, ds), ignore_border=ignore_border, st=st, padding=padding, mode=mode)
+    return pooled[:, :, 0, :]

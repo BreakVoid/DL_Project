@@ -1,6 +1,7 @@
 import os
 import copy
 import scipy.interpolate as spi
+import numpy
 
 data_root = 'toneclassifier'
 train_data_path = "%s/train" % data_root
@@ -167,3 +168,4 @@ def SaveData(Engy, F0, y, mode='train'):
     engy_file.close()
     f0_file.close()
     y_file.close()
+

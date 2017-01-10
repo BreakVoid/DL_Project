@@ -1,63 +1,131 @@
+import timeit
 import theano
 from theano import tensor as T
-from theano_cnn_1c1d import conv1d_multi_channel_single_row
 import numpy as np
 from cnn_process_data import *
+from toneclassifier_2c2f import ToneClassifier
 
 input_columns = 200
 num_classes = 4
+batch_size = 20
 
 X_train, y_train = ImportData(input_columns, 'train')
+X_train_shared, y_train_shared = theano.shared(X_train), theano.shared(y_train)
 X_val, y_val = ImportData(input_columns, 'val')
+X_val_shared, y_val_shared = theano.shared(X_val), theano.shared(y_val)
 X_test, y_test = ImportData(input_columns, 'test')
+X_test_shared, y_test_shared = theano.shared(X_test), theano.shared(y_test)
+
+n_train_batches = X_train.shape[0] / batch_size
+n_valid_batches = X_val.shape[0] / batch_size
+n_test_batches = X_test.shape[0] / batch_size
+
+learning_rate = 1e-3
+learning_decay = 0.95
+
+index = T.lscalar()  # index to a [mini]batch
+X = T.tensor4('X')  # the data is presented as rasterized images
+y = T.ivector('y')
 
 # instantiate 4D tensor for input
-network_input = T.tensor3(name='network_input')
+toneclassifer = ToneClassifier(
+    input_channels=2, input_columns=input_columns,
+    num_filters=[20, 50], filter_size=[[5, 1], [3, 1]],
+    hidden_size=[500, 100], num_classes=num_classes, input_X=X, input_y=y, reg=5e-5)
 
-# initialize shared variable for weights.
-input_channel = 2
-filter_num = 16
-filter_size = 5
-weight_scale = 1e-3
+d_params = [
+    T.grad(toneclassifer.loss, param) for param in toneclassifer.params
+]
 
-# cnn weight shape=[output_channels, input_channels, output_columns]
-# output_channels = filter_num
-# input_channels = 2
-cnn_weight_shape = [filter_num, input_channel, filter_size]
-conv_weights = theano.shared(np.random.normal(0, weight_scale, cnn_weight_shape), name='conv_weight')
-cnn_bias_shape = [filter_num]
-conv_bias = theano.shared(np.random.normal(1, weight_scale, cnn_bias_shape), name='conv_bias')
+updates =[
+    (param, param - learning_rate * d_param) for param, d_param in zip(toneclassifer.params, d_params)
+]
 
-# build symbolic expression that computes the convolution of input with filters in w
+train_model = theano.function(
+    inputs=[index],
+    outputs=toneclassifer.loss,
+    updates=updates,
+    givens={
+        X : X_train_shared[index * batch_size: (index + 1) * batch_size],
+        y : y_train_shared[index * batch_size: (index + 1) * batch_size]
+    }
+)
 
-conv_out = T.nnet.relu(conv1d_multi_channel_single_row(network_input, conv_weights, border_mode='half') + conv_bias.dimshuffle('x', 0, 'x'))
+validate_model = theano.function(
+    inputs=[index],
+    outputs=[toneclassifer.error, toneclassifer.loss],
+    givens={
+        X : X_val_shared[index * batch_size: (index + 1) * batch_size],
+        y : y_val_shared[index * batch_size: (index + 1) * batch_size]
+    }
+)
 
-fully_connected_nn_input = conv_out.flatten(2)
-hidden_size_1 = 100
-affine_weights_1 = theano.shared(
-    np.random.normal(0, weight_scale,
-                     [filter_num * input_columns, hidden_size_1]),
-    name="affine_weight_1")
-affine_bias_1 = theano.shared(
-    np.random.normal(0, weight_scale, hidden_size_1),
-    name='affine_bias_1')
-hidden_output_1 = T.nnet.relu(T.dot(fully_connected_nn_input, affine_weights_1) + affine_bias_1.dimshuffle('x', 0))
+test_model = theano.function(
+    inputs=[index],
+    outputs=toneclassifer.error,
+    givens={
+        X : X_test_shared[index * batch_size: (index + 1) * batch_size],
+        y : y_test_shared[index * batch_size: (index + 1) * batch_size]
+    }
+)
 
-hidden_size_2 = num_classes
-affine_weights_2 = theano.shared(
-    np.random.normal(0, weight_scale,
-                     [hidden_size_1, hidden_size_2]),
-    name="affine_weight_2")
-affine_bias_2 = theano.shared(
-    np.random.normal(0, weight_scale, hidden_size_2),
-    name='affine_bias_2')
-softmax_out = T.nnet.softmax(T.dot(hidden_output_1, affine_weights_2) + affine_bias_2.dimshuffle('x', 0))
+validation_frequency = n_train_batches
+                              # go through this many
+                              # minibatche before checking the network
+                              # on the validation set; in this case we
+                              # check every epoch
 
-y = T.ivector(name='y')
-y_pred = T.argmax(softmax_out, axis=1)
-error_y = T.mean(T.neq(y_pred, y))
-softmax_loss = -T.mean(T.log(softmax_out)[T.arange(y.shape[0]), y])
+best_validation_loss = np.inf
+best_train_loss = np.inf
+best_iter = 0
+test_score = 0.
+start_time = timeit.default_timer()
+epoch = 0
+done_looping = False
+n_epochs = 1000
 
-f = theano.function(inputs=[network_input, y],
-                    outputs=[softmax_loss, error_y])
-print f(X_train, y_train)
+while (epoch < n_epochs) and (not done_looping):
+    X_train, y_train = data_utils.unison_shuffled_copies(X_train, y_train)
+    epoch = epoch + 1
+    for minibatch_index in range(n_train_batches):
+
+        minibatch_avg_cost = train_model(minibatch_index)
+        # iteration number
+        iter = (epoch - 1) * n_train_batches + minibatch_index
+
+        if (iter + 1) % validation_frequency == 0:
+            # compute zero-one loss on validation set
+            validataions = [validate_model(i) for i in range(n_valid_batches)]
+            validation_acc = [validation[0] for validation in validataions]
+            validation_loss = [validation[1] for validataion in validataions]
+            this_validation_acc = np.mean(validation_acc)
+            this_validation_loss = np.mean(validation_loss)
+            print(
+                'epoch %i, minibatch %i/%i, train loss %f, validation loss %f, validation accuracy %f %%' %
+                (
+                    epoch,
+                    minibatch_index + 1,
+                    n_train_batches,
+                    minibatch_avg_cost,
+                    this_validation_loss,
+                    this_validation_acc * 100.
+                )
+            )
+            if this_validation_loss < best_validation_loss:
+                best_validation_loss = this_validation_loss
+                best_iter = iter
+
+                # test it on the test set
+                test_losses = [test_model(i) for i
+                               in range(n_test_batches)]
+                test_score = np.mean(test_losses)
+
+                print(('     epoch %i, minibatch %i/%i, test accuracy of '
+                       'best model %f %%') %
+                      (epoch, minibatch_index + 1, n_train_batches,
+                       test_score * 100.))
+    learning_rate *= learning_decay
+end_time = timeit.default_timer()
+print(('Optimization complete. Best validation score of %f %% '
+       'obtained at iteration %i, with test performance %f %%') %
+      (best_validation_loss * 100., best_iter + 1, test_score * 100.))

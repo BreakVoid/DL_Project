@@ -2,9 +2,10 @@ import os
 import copy
 import scipy.interpolate as spi
 
-data_root = '../toneclassifier'
+data_root = 'toneclassifier'
 train_data_path = "%s/train" % data_root
-val_data_path = "%s/test_new" % data_root
+val_data_path = "%s/test" % data_root
+test_data_path = "%s/test_new" % data_root
 
 labels = {
     'one': 0,
@@ -17,6 +18,8 @@ def LoadData(mode = 'train'):
     data_path = train_data_path
     if mode == 'val':
         data_path = val_data_path
+    elif mode == 'test':
+        data_path = test_data_path
     data_len_max = 0
     Engy = []
     F0 = []
@@ -143,6 +146,11 @@ def SaveData(Engy, F0, y, mode='train'):
         save_engy_name = 'val_engys'
         save_f0_name = 'val_f0s'
         save_y_name = 'val_labels'
+    elif mode == 'test':
+        save_engy_name = 'test_engys'
+        save_f0_name = 'test_f0s'
+        save_y_name = 'test_labels'
+
     engy_file = open(save_engy_name, "w")
     f0_file = open(save_f0_name, "w")
     y_file = open(save_y_name, "w")

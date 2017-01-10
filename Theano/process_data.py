@@ -17,3 +17,6 @@ def LoadAndProcessTrainData(input_columns, save=False):
 
 def LoadAndProcessValData(input_columns, save=False):
     return LoadAndProcessData(input_columns, 'val', save)
+
+def LoadAndProcessTestData(input_columns, save=False):
+    return LoadAndProcessData(input_columns, 'test', save)

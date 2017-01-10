@@ -14,7 +14,7 @@ labels = {
     'four': 3
 }
 
-def LoadData(mode = 'train'):
+def LoadData(mode='train'):
     data_path = train_data_path
     if mode == 'val':
         data_path = val_data_path
@@ -25,7 +25,7 @@ def LoadData(mode = 'train'):
     F0 = []
     y = []
     for labelName, label in labels.iteritems():
-        data_subset_path = "%s/%s" % (train_data_path, labelName)
+        data_subset_path = "%s/%s" % (data_path, labelName)
         data_names = set()
         for filename in os.listdir(data_subset_path):
             if filename[0] == ".":

@@ -16,16 +16,21 @@ network_input = T.tensor3(name='network_input')
 
 # initialize shared variable for weights.
 input_channel = 2
-filter_num = 16
+num_filters = 16
 filter_size = 5
 weight_scale = 1e-3
+
+
+class Classifiers(object):
+    def __init__(self, input_channels=None, num_filters=None, filter_size=None, weight_scale=1e-3
+                 num_classes=None, hidden_layers=None, reg=1e-4):
 
 # cnn weight shape=[output_channels, input_channels, output_columns]
 # output_channels = filter_num
 # input_channels = 2
-cnn_weight_shape = [filter_num, input_channel, filter_size]
+cnn_weight_shape = [num_filters, input_channel, filter_size]
 conv_weights = theano.shared(np.random.normal(0, weight_scale, cnn_weight_shape), name='conv_weight')
-cnn_bias_shape = [filter_num]
+cnn_bias_shape = [num_filters]
 conv_bias = theano.shared(np.random.normal(1, weight_scale, cnn_bias_shape), name='conv_bias')
 
 # build symbolic expression that computes the convolution of input with filters in w
@@ -36,7 +41,7 @@ fully_connected_nn_input = conv_out.flatten(2)
 hidden_size_1 = 100
 affine_weights_1 = theano.shared(
     np.random.normal(0, weight_scale,
-                     [filter_num * input_columns, hidden_size_1]),
+                     [num_filters * input_columns, hidden_size_1]),
     name="affine_weight_1")
 affine_bias_1 = theano.shared(
     np.random.normal(0, weight_scale, hidden_size_1),

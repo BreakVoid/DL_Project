@@ -7,33 +7,35 @@ print(sys.COLORS.red ..  '==> define parameters')
 local noutputs = 4
 
 -- input dimensions
-local nfeats = 1
-local width = 200
+nfeats = 1
+width = 200
 
 -- hidden units, filter sizes
-local nstates = {32, 32}
+local nstates = {1, 32}
 local filtersize = {7, 7, 7}
 local poolsize = 2
 
 print(sys.COLORS.red ..  '==> construct CNN')
 
-
 local CNN = nn.Sequential()
 
 -- stage 1:
-CNN:add(nn.TemporalConvolution(nfeats, nstates[1], filtersize[1]))
+--[[
+CNN:add(nn.TemporalConvolution(nfeats, 1, filtersize[1]))
 CNN:add(nn.Threshold())
-CNN:add(nn.TemporalMaxPooling(poolsize, poolsize))
+CNN:add(nn.TemporalMaxPooling(poolsize))
+]]--
 
 local classifier = nn.Sequential()
-
 -- stage 2: Linear
-classifier:add(nn.Linear(nstates[1], nstates[2]))
+--[[
+classifier:add(nn.Linear(width, nstates[2]))
 classifier:add(nn.Threshold())
 classifier:add(nn.Linear(nstates[2], noutputs))
-
+]]--
+classifier:add(nn.Linear(width, noutputs))
 classifier:add(nn.LogSoftMax())
-
+--[[
 for _,layer in ipairs(CNN.modules) do
   if layer.bias then
     layer.bias:fill(.2)
@@ -42,9 +44,9 @@ for _,layer in ipairs(CNN.modules) do
     end
   end
 end
-
+]]--
 model = nn.Sequential()
-model:add(CNN)
+--model:add(CNN)
 model:add(classifier)
 
 loss = nn.ClassNLLCriterion()
@@ -52,35 +54,46 @@ loss = nn.ClassNLLCriterion()
 print(sys.COLORS.red ..  '==> here is the CNN:')
 print(model)
 
+-- creating traindata
+trainData={};
+function trainData:size()
+  return 400
+end
 
--- training function
-function train(dataset)
-  epoch = epoch or 1
+file1 = io.open("train_f0s", "r")
+file2 = io.open("train_labels", "r")
 
-  local time = sys.clock()
-
-  -- do one epoch
-  print('<trainer> on training set:')
-  print("<trainer> online epoch # " .. epoch .. ' [batchSize = ' .. opt.batchSize .. ']')
-  for t = 1,dataset:size(),opt.batchSize do
-    -- create mini batch
-    local inputs = torch.Tensor(opt.batchSize,1,width)
-    local targets = torch.Tensor(opt.batchSize)
-    local k = 1
-    for i = t,math.min(t+opt.batchSize-1,dataset:size()) do
-      -- load new sample
-      local sample = dataset[i]
-      local input = sample[1]:clone()
-      local _,target = sample[2]:clone():max(1)
-      target = target:squeeze()
-      inputs[k] = input
-      targets[k] = target
-      k = k + 1
-    end
+for i = 1,trainData:size() do
+  local input = torch.Tensor(width)
+  local output = torch.Tensor(1)
+  for j = 1,width do
+    input[j] = file1:read()
   end
+  output[1] = file2:read() + 1
+  trainData[i] = {input, output}
+end
+file1:close()
+file2:close()
+
+
+-- creating testdata
+testData={}
+function testData:size()
+  return 400
 end
 
--- test function
-function test(dataset)
-  
+file1 = io.open("val_f0s", "r")
+file2 = io.open("val_labels", "r")
+
+for i = 1,testData:size() do
+  local input = torch.Tensor(width)
+  local output = torch.Tensor(1)
+  for j = 1,width do
+    input[j] = file1:read()
+  end
+  output[1] = file2:read() + 1
+  testData[i] = {input, output}
 end
+file1:close()
+file2:close()
+

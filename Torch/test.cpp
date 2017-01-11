@@ -12,7 +12,7 @@ int main()
         double x;
 
         while (cin >> x) {
-                cout << x << endl;
+                printf("%.6lf\n", x);
         }
         return 0;
 }

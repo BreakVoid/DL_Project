@@ -4,38 +4,29 @@ require 'nn'
 
 print(sys.COLORS.red ..  '==> define parameters')
 
-local noutputs = 4
-
 -- input dimensions
-nfeats = 1
-width = 200
-
--- hidden units, filter sizes
-local nstates = {1, 32}
-local filtersize = {7, 7, 7}
-local poolsize = 2
+width = 120
 
 print(sys.COLORS.red ..  '==> construct CNN')
 
 local CNN = nn.Sequential()
 
 -- stage 1:
---[[
-CNN:add(nn.TemporalConvolution(nfeats, 1, filtersize[1]))
+CNN:add(nn.SpatialConvolutionMM(1, 20, 5, 1, 1, 1))
 CNN:add(nn.Threshold())
-CNN:add(nn.TemporalMaxPooling(poolsize))
-]]--
+CNN:add(nn.SpatialMaxPooling(2, 1, 2, 1))
+CNN:add(nn.SpatialConvolutionMM(20, 50, 3, 1, 1, 1))
+CNN:add(nn.Threshold())
+CNN:add(nn.SpatialMaxPooling(2, 1, 2, 1))
+CNN:add(nn.Reshape(50*28))
 
 local classifier = nn.Sequential()
 -- stage 2: Linear
---[[
-classifier:add(nn.Linear(width, nstates[2]))
-classifier:add(nn.Threshold())
-classifier:add(nn.Linear(nstates[2], noutputs))
-]]--
-classifier:add(nn.Linear(width, noutputs))
+classifier:add(nn.Linear(50*28, 500))
+classifier:add(nn.Tanh())
+classifier:add(nn.Linear(500, 4))
 classifier:add(nn.LogSoftMax())
---[[
+
 for _,layer in ipairs(CNN.modules) do
   if layer.bias then
     layer.bias:fill(.2)
@@ -44,9 +35,9 @@ for _,layer in ipairs(CNN.modules) do
     end
   end
 end
-]]--
+
 model = nn.Sequential()
---model:add(CNN)
+model:add(CNN)
 model:add(classifier)
 
 loss = nn.ClassNLLCriterion()
@@ -60,14 +51,14 @@ function trainData:size()
   return 400
 end
 
-file1 = io.open("train_f0s", "r")
-file2 = io.open("train_labels", "r")
+file1 = io.open("./new_data/train_f", "r")
+file2 = io.open("./new_data/train_l", "r")
 
 for i = 1,trainData:size() do
-  local input = torch.Tensor(width)
+  local input = torch.Tensor(1, 1, width)
   local output = torch.Tensor(1)
   for j = 1,width do
-    input[j] = file1:read()
+    input[1][1][j] = file1:read()
   end
   output[1] = file2:read() + 1
   trainData[i] = {input, output}
@@ -76,24 +67,44 @@ file1:close()
 file2:close()
 
 
--- creating testdata
-testData={}
-function testData:size()
-  return 400
+-- creating valdata
+valData={}
+function valData:size()
+  return 40
 end
 
-file1 = io.open("val_f0s", "r")
-file2 = io.open("val_labels", "r")
+file1 = io.open("./new_data/val_f", "r")
+file2 = io.open("./new_data/val_l", "r")
 
-for i = 1,testData:size() do
-  local input = torch.Tensor(width)
+for i = 1,valData:size() do
+  local input = torch.Tensor(1, 1, width)
   local output = torch.Tensor(1)
   for j = 1,width do
-    input[j] = file1:read()
+    input[1][1][j] = file1:read()
+  end
+  output[1] = file2:read() + 1
+  valData[i] = {input, output}
+end
+file1:close()
+file2:close()
+
+-- creating valdata
+testData={}
+function testData:size()
+  return 228
+end
+
+file1 = io.open("./new_data/test_f", "r")
+file2 = io.open("./new_data/test_l", "r")
+
+for i = 1,testData:size() do
+  local input = torch.Tensor(1, 1, width)
+  local output = torch.Tensor(1)
+  for j = 1,width do
+    input[1][1][j] = file1:read()
   end
   output[1] = file2:read() + 1
   testData[i] = {input, output}
 end
 file1:close()
 file2:close()
-

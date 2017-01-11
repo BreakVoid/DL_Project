@@ -164,7 +164,7 @@ def LogSingleData(data):
     for i in xrange(data_len):
         if data[i] <= 0:
             data[i] = 0
-        result[i] = math.log(data[i] + 1)
+        result[i] = math.log(data[i] + 1) * 100
     return result
 
 def LogData(Engy, F0):

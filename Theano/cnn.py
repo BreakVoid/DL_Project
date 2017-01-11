@@ -1,6 +1,6 @@
 import timeit
 import theano
-from theano import tensor as T
+import theano.tensor as T
 import numpy as np
 from cnn_process_data import *
 from toneclassifier_2c2f import ToneClassifier
@@ -21,7 +21,9 @@ n_valid_batches = X_val.shape[0] / batch_size
 n_test_batches = X_test.shape[0] / batch_size
 
 learning_rate = 1e-3
-learning_decay = 0.95
+
+eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
+eta_decay = np.array(0.97, dtype=theano.config.floatX)
 
 index = T.lscalar()  # index to a [mini]batch
 X = T.tensor4('X')  # the data is presented as rasterized images
@@ -30,15 +32,15 @@ y = T.ivector('y')
 # instantiate 4D tensor for input
 toneclassifer = ToneClassifier(
     input_channels=2, input_columns=input_columns,
-    num_filters=[20, 50], filter_size=[[5, 1], [3, 1]],
-    hidden_size=[500, 100], num_classes=num_classes, input_X=X, input_y=y, reg=5e-5)
+    num_filters=[32, 64], filter_size=[[5, 1], [3, 1]],
+    hidden_size=[512, 128], num_classes=num_classes, input_X=X, input_y=y, reg=1e-4)
 
 d_params = [
     T.grad(toneclassifer.loss, param) for param in toneclassifer.params
 ]
 
 updates =[
-    (param, param - learning_rate * d_param) for param, d_param in zip(toneclassifer.params, d_params)
+    (param, param - eta * d_param) for param, d_param in zip(toneclassifer.params, d_params)
 ]
 
 train_model = theano.function(
@@ -124,7 +126,8 @@ while (epoch < n_epochs) and (not done_looping):
                        'best model %f %%') %
                       (epoch, minibatch_index + 1, n_train_batches,
                        test_score * 100.))
-    learning_rate *= learning_decay
+    if epoch % 5 == 0:
+        eta.set_value(eta.get_value() * eta_decay)
 end_time = timeit.default_timer()
 print(('Optimization complete. Best validation score of %f %% '
        'obtained at iteration %i, with test performance %f %%') %

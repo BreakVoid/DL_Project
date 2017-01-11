@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e80b1dd4-609b-49ca-af86-bf79c9495f33" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Theano/cnn.py" afterPath="$PROJECT_DIR$/Theano/cnn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Theano/data_utils.py" afterPath="$PROJECT_DIR$/Theano/data_utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Theano/process_data.py" afterPath="$PROJECT_DIR$/Theano/process_data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Theano/toneclassifier_2c3f.py" afterPath="$PROJECT_DIR$/Theano/toneclassifier_2c3f.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/overlap-plot.ipynb" afterPath="$PROJECT_DIR$/overlap-plot.ipynb" />
-    </list>
+    <list default="true" id="e80b1dd4-609b-49ca-af86-bf79c9495f33" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,8 +54,8 @@
       <file leaf-file-name="cnn.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Theano/cnn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="48" column="11" lean-forward="true" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
+            <state relative-caret-position="315">
+              <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -880,8 +874,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Theano/cnn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="48" column="11" lean-forward="true" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
+        <state relative-caret-position="315">
+          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

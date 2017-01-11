@@ -33,25 +33,37 @@ class ToneClassifier(object):
         # FC layer 1
         self.affine_weights_0 = theano.shared(
             np.random.normal(0, weight_scale,
-                             [num_filters[1] * 28, hidden_size]),
+                             [num_filters[1] * 48, hidden_size[0]]),
             name="affine_weight_0")
         self.affine_bias_0 = theano.shared(
-            np.random.normal(0, weight_scale, hidden_size),
+            np.random.normal(0, weight_scale, hidden_size[0]),
             name='affine_bias_0')
         self.hidden_output_0 = T.nnet.relu(
             T.dot(self.fully_connected_nn_input, self.affine_weights_0)
             + self.affine_bias_0.dimshuffle('x', 0))
 
+        # FC layer 2
+        self.affine_weights_1 = theano.shared(
+            np.random.normal(0, weight_scale,
+                             [hidden_size[0], hidden_size[1]]),
+            name="affine_weight_1")
+        self.affine_bias_1 = theano.shared(
+            np.random.normal(0, weight_scale, hidden_size[1]),
+            name="affine_bias_1")
+        self.hidden_output_1 = T.nnet.relu(
+            T.dot(self.hidden_output_0, self.affine_weights_1)
+            + self.affine_bias_1.dimshuffle('x', 0))
+
         # Softmax Output Layer
         self.affine_weights_2 = theano.shared(
             np.random.normal(0, weight_scale,
-                             [hidden_size, num_classes]),
+                             [hidden_size[1], num_classes]),
             name="affine_weight_2")
         self.affine_bias_2 = theano.shared(
             np.random.normal(0, weight_scale, num_classes),
             name='affine_bias_2')
         self.softmax_out = T.nnet.softmax(
-            T.dot(self.hidden_output_0, self.affine_weights_2)
+            T.dot(self.hidden_output_1, self.affine_weights_2)
             + self.affine_bias_2.dimshuffle('x', 0))
 
         self.y_pred = T.argmax(self.softmax_out, axis=1)
@@ -63,9 +75,11 @@ class ToneClassifier(object):
                     + 0.5 * reg * (T.sum(self.conv_weights_0) ** 2
                                    + T.sum(self.conv_weights_1) ** 2
                                    + T.sum(self.affine_weights_0) ** 2
+                                   + T.sum(self.affine_weights_1) ** 2
                                    + T.sum(self.affine_weights_2) ** 2)
 
         self.params = [self.conv_weights_0, self.conv_bias_0,
                        self.conv_weights_1, self.conv_bias_1,
                        self.affine_weights_0, self.affine_bias_0,
+                       self.affine_weights_1, self.affine_bias_1,
                        self.affine_weights_2, self.affine_bias_2]

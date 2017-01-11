@@ -1,6 +1,7 @@
 import os
 import copy
 import scipy.interpolate as spi
+import math
 import numpy
 
 data_root = 'toneclassifier'
@@ -138,6 +139,39 @@ def NormalizeDataLengthWithInterpolation(Engy, F0, result_len=200):
 
     return resEngy, resF0
 
+def CenterlizeSingleData(data):
+    data_len = len(data)
+    result = copy.copy(data)
+    max_value = -100.
+    for i in xrange(data_len):
+        if data[i] > max_value:
+            max_value = data[i]
+
+    std_value = 0.8 * max_value
+    for i in xrange(data_len):
+        result[i] = data[i] / std_value
+    return result
+
+def CenterlizeData(Engy, F0):
+    for i in xrange(len(Engy)):
+        Engy[i] = CenterlizeSingleData(Engy[i])
+        F0[i] = CenterlizeSingleData(F0[i])
+    return Engy, F0
+
+def LogSingleData(data):
+    data_len = len(data)
+    result = copy.copy(data)
+    for i in xrange(data_len):
+        if data[i] <= 0:
+            data[i] = 0
+        result[i] = math.log(data[i] + 1)
+    return result
+
+def LogData(Engy, F0):
+    for i in xrange(len(Engy)):
+        Engy[i] = LogSingleData(Engy[i])
+        F0[i] = LogSingleData(F0[i])
+    return Engy, F0
 
 def SaveData(Engy, F0, y, mode='train'):
     save_engy_name = 'train_engys'

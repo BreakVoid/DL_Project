@@ -5,7 +5,7 @@ import numpy as np
 from cnn_process_data import *
 from toneclassifier_2c2f import ToneClassifier
 
-input_columns = 200
+input_columns = 120
 num_classes = 4
 batch_size = 20
 
@@ -20,20 +20,27 @@ n_train_batches = X_train.shape[0] / batch_size
 n_valid_batches = X_val.shape[0] / batch_size
 n_test_batches = X_test.shape[0] / batch_size
 
-learning_rate = 1e-3
+learning_rate = 5e-4
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
-eta_decay = np.array(0.97, dtype=theano.config.floatX)
+eta_decay = np.array(0.98, dtype=theano.config.floatX)
 
 index = T.lscalar()  # index to a [mini]batch
 X = T.tensor4('X')  # the data is presented as rasterized images
 y = T.ivector('y')
 
-# instantiate 4D tensor for input
+# toneclassifier_2c3f
+# toneclassifer = ToneClassifier(
+#     input_channels=2, input_columns=input_columns,
+#     num_filters=[32, 64], filter_size=[[5, 1], [3, 1]],
+#     hidden_size=[512, 128], num_classes=num_classes, input_X=X, input_y=y, reg=1e-4)
+
+# toneclassisifier_2c2f
 toneclassifer = ToneClassifier(
     input_channels=2, input_columns=input_columns,
     num_filters=[32, 64], filter_size=[[5, 1], [3, 1]],
-    hidden_size=[512, 128], num_classes=num_classes, input_X=X, input_y=y, reg=1e-4)
+    hidden_size=512, num_classes=num_classes, input_X=X, input_y=y, reg=1e-5)
+
 
 d_params = [
     T.grad(toneclassifer.loss, param) for param in toneclassifer.params

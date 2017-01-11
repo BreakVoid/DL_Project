@@ -3,7 +3,7 @@ import theano
 import theano.tensor as T
 import numpy as np
 from cnn_process_data import *
-from toneclassifier_2c2f import ToneClassifier
+from toneclassifier_2c3f import ToneClassifier
 
 input_columns = 120
 num_classes = 4
@@ -20,10 +20,10 @@ n_train_batches = X_train.shape[0] / batch_size
 n_valid_batches = X_val.shape[0] / batch_size
 n_test_batches = X_test.shape[0] / batch_size
 
-learning_rate = 5e-4
+learning_rate = 2e-3
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
-eta_decay = np.array(0.98, dtype=theano.config.floatX)
+eta_decay = np.array(0.99, dtype=theano.config.floatX)
 
 index = T.lscalar()  # index to a [mini]batch
 X = T.tensor4('X')  # the data is presented as rasterized images
@@ -39,14 +39,14 @@ y = T.ivector('y')
 toneclassifer = ToneClassifier(
     input_channels=2, input_columns=input_columns,
     num_filters=[32, 64], filter_size=[[5, 1], [3, 1]],
-    hidden_size=512, num_classes=num_classes, input_X=X, input_y=y, reg=1e-5)
+    hidden_size=[256, 128], num_classes=num_classes, input_X=X, input_y=y, reg=5e-5)
 
 
 d_params = [
     T.grad(toneclassifer.loss, param) for param in toneclassifer.params
 ]
 
-updates =[
+updates = [
     (param, param - eta * d_param) for param, d_param in zip(toneclassifer.params, d_params)
 ]
 
@@ -91,10 +91,12 @@ test_score = 0.
 start_time = timeit.default_timer()
 epoch = 0
 done_looping = False
-n_epochs = 1000
+n_epochs = 500
 
 while (epoch < n_epochs) and (not done_looping):
     X_train, y_train = data_utils.unison_shuffled_copies(X_train, y_train)
+    X_val, y_val = data_utils.unison_shuffled_copies(X_val, y_val)
+    X_test, y_test = data_utils.unison_shuffled_copies(X_test, y_test)
     epoch = epoch + 1
     for minibatch_index in range(n_train_batches):
 
@@ -133,9 +135,13 @@ while (epoch < n_epochs) and (not done_looping):
                        'best model %f %%') %
                       (epoch, minibatch_index + 1, n_train_batches,
                        test_score * 100.))
-    if epoch % 5 == 0:
-        eta.set_value(eta.get_value() * eta_decay)
+
+    eta.set_value(eta.get_value() * eta_decay)
 end_time = timeit.default_timer()
 print(('Optimization complete. Best validation score of %f %% '
        'obtained at iteration %i, with test performance %f %%') %
       (best_validation_loss * 100., best_iter + 1, test_score * 100.))
+
+test_losses = [test_model(i) for i in range(n_test_batches)]
+test_score = np.mean(test_losses)
+print(('final test accuracy of best model %f %%') % (test_score * 100.))

@@ -2,6 +2,7 @@ import os
 import copy
 import scipy.interpolate as spi
 import numpy
+import math
 
 data_root = '../toneclassifier'
 train_data_path = "%s/train" % data_root
@@ -164,6 +165,21 @@ def CenterlizeData(Engy, F0):
     for i in xrange(len(Engy)):
         Engy[i] = CenterlizeSingleData(Engy[i])
         F0[i] = CenterlizeSingleData(F0[i])
+    return Engy, F0
+
+def LogSingleData(data):
+    data_len = len(data)
+    result = copy.copy(data)
+    for i in xrange(data_len):
+        if data[i] <= 0:
+            data[i] = 0
+        result[i] = math.log(data[i] + 1) * 100
+    return result
+
+def LogData(Engy, F0):
+    for i in xrange(len(Engy)):
+        Engy[i] = LogSingleData(Engy[i])
+        F0[i] = LogSingleData(F0[i])
     return Engy, F0
 
 def SaveData(Engy, F0, y, mode='train'):

@@ -33,7 +33,7 @@ class ToneClassifier(object):
         # FC layer 1
         self.affine_weights_0 = theano.shared(
             np.random.normal(0, weight_scale,
-                             [num_filters[1] * 48, hidden_size[0]]),
+                             [num_filters[1] * 28, hidden_size[0]]),
             name="affine_weight_0")
         self.affine_bias_0 = theano.shared(
             np.random.normal(0, weight_scale, hidden_size[0]),

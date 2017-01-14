@@ -346,5 +346,5 @@ def AddWhiteNoise(F0):
     for i in xrange(data_num):
         data_len = len(F0[i])
         for j in xrange(data_len):
-            F0[i][j] += np.random.normal(0, 1e-2)
+            F0[i][j] += np.random.normal(0, 10)
     return F0

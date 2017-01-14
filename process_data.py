@@ -18,7 +18,8 @@ def LoadAndProcessData(input_columns, mode, save=False, plot=False):
 
     if save:
         data_utils.SaveData(Engy, F0, y, mode)
-    F0 = data_utils.Amplify(F0, 75)
+    F0 = data_utils.Amplify(F0, 100)
+    F0 = data_utils.AddWhiteNoise(F0)
     return Engy, F0, y
 
 

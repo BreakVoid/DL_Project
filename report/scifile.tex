@@ -107,8 +107,8 @@
 % Place your abstract within the special {sciabstract} environment.
 
 \begin{sciabstract}
-{\bf ABSTRACT\/} \\
-The purpose of this research is to classify the tone using the neural network and compare the differences between three neural network frameworks --- \texttt{Torch}, \texttt{MXNet} and \texttt{Theano}. Since it seems hard for the neural network to extract the feature from raw data automatically, it is necessary to preprocess the data with some proper methods. We've tried two ways of data preprocessing: eliminating the noise in all datasets or add some noise in training data to fit the environment of test data. With the processing data and Convolutional Neural Networks, we finally achieved the accuracy of XXX\% in \texttt{test\_new} dataset. After reaching a better performance, we keep working on comparing the frameworks and provide some major factors listing on this report.
+{\bf ABSTRACT\/ * need to be edited} \\
+The purpose of this research is to classify the tone using the neural network and compare the differences between three neural network frameworks --- \texttt{Torch}, \texttt{MXNet} and \texttt{Theano}. Since it seems hard for the neural network to extract the feature from raw data automatically, it is necessary to preprocess the data with some proper methods. We've tried two ways of data preprocessing: eliminating the noise in all datasets or add some noise in training data to fit the environment of test data. With the processing data and Convolutional Neural Networks, we finally achieved the accuracy of {\_\_\_\_\_\_\_\_\%} in \texttt{test\_new} dataset. After reaching a better performance, we keep working on comparing the frameworks and provide some major factors listing on this report.
 \end{sciabstract}
 
 % In setting up this template for *Science* papers, we've used both
@@ -121,11 +121,39 @@ The purpose of this research is to classify the tone using the neural network an
 % choice.  Either way, use the asterisk (*) modifier, as shown, to
 % suppress numbering.
 
-\section*{Introduction}
+\section*{Introduction * need to be edited}
 
 The project of {\it Deep Learning Course} aims at constructing a proper neural network model to solve tone classification with different frameworks and discuss factors which may have an influence on the performance of each framework.\\
-With only the raw data, the file: \texttt{train.engy}, \  \texttt{train.f0}, \ \texttt{test.engy}, \ \texttt{test.f0},  \ \texttt{test\_new.engy}, \ \texttt{text\_new.f0}, it's a rough task for 
+\\
+With only the raw data, the file: \texttt{train.engy}, \  \texttt{train.f0}, \ \texttt{test.engy}, \ \texttt{test.f0},  \ \texttt{test\_new.engy}, \ \texttt{text\_new.f0}, it's a rather tough task for neural network itself to extract proper feature that may have a good performance in the test dataset. Therefore, preprocessing the data  is an appropriate way to change the data, which is much easier to train a better network. We eliminate the low energy points and use cubic spline interpolation to fix the data with a proper length. Then with those data (in directory \texttt{data}) {\bf **** need to be edited}\\
+Since the test data is recording in the noisy environment, which is totally different from the situation of training data, the other thought is to add some white noise in the training data to fit the environment of the test data. We also tried this method to evaluate the performance.\\
+And in the {\it $2^{nd}$ Section}, we will provide all the details in our data preprocessing.\\
+\\
+After preprocessing the data, another major work need to be decided is the model of neural networks.\\
+All of the information of these part is shown in the {\it $3^{rd}$ Section} {\bf Model of Neural Networks}
 
+
+\section*{Data Preprocessing}
+
+\section*{Model of Neural Networks}
+
+\section*{Background of the Frameworks}
+
+\section*{Evaluation}
+
+\section*{Future Work}
+
+\section*{Conclusion}
+
+
+
+
+
+
+
+
+
+\iffalse
 \section*{Formatting Citations}
 
 Citations can be handled in one of three ways.  The most
@@ -358,8 +386,7 @@ the text per {\it Science\/} style, and include the list of captions at
 the end of the document, coded as ordinary paragraphs as shown in the
 \texttt{scifile.tex} template file.  Your actual figure files should
 be submitted separately.
-
-
+\fi
 
 \end{document}
 

@@ -10,6 +10,13 @@ train_data_path = "%s/train" % data_root
 val_data_path = "%s/test" % data_root
 test_data_path = "%s/test_new" % data_root
 
+def SetPath(root):
+    global data_root, train_data_path, val_data_path, test_data_path
+    data_root = root
+    train_data_path = "%s/train" % data_root
+    val_data_path = "%s/test" % data_root
+    test_data_path = "%s/test_new" % data_root
+
 labels = {
     'one': 0,
     'two': 1,
@@ -236,7 +243,7 @@ def NormalizeDataLengthWithInterpolation(Engy, F0, result_len=200):
 def CenterlizeSingleData(data):
     mean = np.asarray(data).mean()
     for i in xrange(len(data)):
-        data[i] /= mean
+        data[i] -= mean
     return data
 
 def CenterlizeData(Data):
@@ -274,7 +281,7 @@ def SaveData(Engy, F0, y, mode='train'):
     f0_file.close()
     y_file.close()
 
-def PlotF0(F0, y):
+def PlotF0(mode='train', F0=None, y=None):
     max_len = max(map(len, F0))
     for label in xrange(4):
         for i in xrange(len(F0)):
@@ -285,5 +292,10 @@ def PlotF0(F0, y):
             x = coff * x
             fx = np.asarray(F0[i])
             plt.plot(x, fx)
-        plt.savefig('train-plt_%d' % label)
-        plt.show()
+        plt.savefig('%s-plt_%d' % (mode, label))
+        plt.clf()
+
+def unison_shuffled_copies(a, b):
+    assert len(a) == len(b)
+    p = np.random.permutation(len(a))
+    return a[p], b[p]

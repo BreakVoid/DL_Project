@@ -3,7 +3,10 @@ import theano
 import theano.tensor as T
 import numpy as np
 from cnn_process_data import *
-from toneclassifier_2c3f import ToneClassifier
+from toneclassifier_2c2f import ToneClassifier
+import data_utils
+
+data_utils.SetPath('../toneclassifier')
 
 input_columns = 120
 num_classes = 4
@@ -23,7 +26,7 @@ n_test_batches = X_test.shape[0] / batch_size
 learning_rate = 2e-3
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
-eta_decay = np.array(0.99, dtype=theano.config.floatX)
+eta_decay = np.array(1, dtype=theano.config.floatX)
 
 index = T.lscalar()  # index to a [mini]batch
 X = T.tensor4('X')  # the data is presented as rasterized images
@@ -37,9 +40,9 @@ y = T.ivector('y')
 
 # toneclassisifier_2c2f
 toneclassifer = ToneClassifier(
-    input_channels=2, input_columns=input_columns,
-    num_filters=[32, 64], filter_size=[[5, 1], [3, 1]],
-    hidden_size=[256, 128], num_classes=num_classes, input_X=X, input_y=y, reg=5e-5)
+    input_channels=1, input_columns=input_columns,
+    num_filters=[20, 50], filter_size=[[5, 1], [3, 1]],
+    hidden_size=500, num_classes=num_classes, input_X=X, input_y=y, reg=0)
 
 
 d_params = [

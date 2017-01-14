@@ -5,7 +5,7 @@ import numpy as np
 from cnn_process_data import *
 
 class ToneClassifier(object):
-    def __init__(self, input_channels=None, input_columns=None, num_filters=None, filter_size=None, weight_scale=1e-2,
+    def __init__(self, input_channels=None, input_columns=None, num_filters=None, filter_size=None, weight_scale=2e-2,
                  num_classes=None, hidden_size=None, reg=0, input_X=None, input_y=None):
         self.input = input_X
         self.y = input_y
@@ -13,7 +13,7 @@ class ToneClassifier(object):
         self.cnn_weight_shape_0 = [num_filters[0], input_channels] + filter_size[0]
         self.conv_weights_0 = theano.shared(np.random.normal(0, weight_scale, self.cnn_weight_shape_0), name='conv_weight_0')
         self.cnn_bias_shape_0 = [num_filters[0]]
-        self.conv_bias_0 = theano.shared(np.random.normal(1, weight_scale, self.cnn_bias_shape_0), name='conv_bias_0')
+        self.conv_bias_0 = theano.shared(np.random.normal(0, weight_scale, self.cnn_bias_shape_0), name='conv_bias_0')
         self.conv_out_0 = T.nnet.relu(
             T.nnet.conv2d(self.input, self.conv_weights_0, border_mode='valid')
             + self.conv_bias_0.dimshuffle('x', 0, 'x', 'x'))
@@ -23,7 +23,7 @@ class ToneClassifier(object):
         self.cnn_weight_shape_1 = [num_filters[1], num_filters[0]] + filter_size[1]
         self.conv_weights_1 = theano.shared(np.random.normal(0, weight_scale, self.cnn_weight_shape_1), name='conv_weight_1')
         self.cnn_bias_shape_1 = [num_filters[1]]
-        self.conv_bias_1 = theano.shared(np.random.normal(1, weight_scale, self.cnn_bias_shape_1), name='conv_bias_1')
+        self.conv_bias_1 = theano.shared(np.random.normal(0, weight_scale, self.cnn_bias_shape_1), name='conv_bias_1')
         self.conv_out_1 = T.nnet.relu(
             T.nnet.conv2d(self.pool_out_0, self.conv_weights_1, border_mode='valid')
             + self.conv_bias_1.dimshuffle('x', 0, 'x', 'x'))

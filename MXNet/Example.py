@@ -30,13 +30,13 @@ def read_data(label_url, tone_url):
 	#with open(label_url, 'r') as f_lbl:
 	label = np.loadtxt(label_url)
 	#with open(tone_url, 'r') as f_tone:
-	tone = np.loadtxt(tone_url) * 100
+	tone = np.loadtxt(tone_url) 
 	#print label.shape
 	print tone.shape
 	return (label, tone)
 
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/featured_data/'
-path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL/DL_Project/smooth_data/'
+path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL/DL_Project/fitting_data/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/data/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/experiment/'
 (train_lbl, train_tone) = read_data(
@@ -112,7 +112,7 @@ pool2 = mx.symbol.Pooling(data = relu2, pool_type = "max", kernel = (2, 1), stri
 
 # first fullc layer
 flatten = mx.symbol.Flatten(data = pool2)
-fc1 = mx.symbol.FullyConnected(data = flatten, num_hidden = 512)
+fc1 = mx.symbol.FullyConnected(data = flatten, num_hidden = 500)
 relu1 = mx.symbol.Activation(data = fc1, act_type = "tanh")
 # second fullc
 # fc2 = mx.symbol.FullyConnected(data = tanh1, num_hidden = 512)
@@ -187,7 +187,7 @@ model.fit(
     eval_data = val_iter, # validation data
     optimizer = 'adam',
     optimizer_params = {'learning_rate':1e-4, 'decay_factor':0.95},
-    num_epoch = 100,
+    num_epoch = 200,
     eval_metric = 'acc',
     #epoch_end_callback = checkpoint,
 )

@@ -2,7 +2,8 @@ import os
 import copy
 import scipy.interpolate as spi
 import math
-import numpy
+import numpy as np
+import matplotlib.pyplot as plt
 
 data_root = 'toneclassifier'
 train_data_path = "%s/train" % data_root
@@ -22,7 +23,6 @@ def LoadData(mode='train'):
         data_path = val_data_path
     elif mode == 'test':
         data_path = test_data_path
-    data_len_max = 0
     Engy = []
     F0 = []
     y = []
@@ -40,8 +40,6 @@ def LoadData(mode='train'):
         for data_name in data_names:
             engy = map(float, open("%s/%s.engy" % (data_subset_path, data_name)).readlines())
             f0 = map(float, open("%s/%s.f0" % (data_subset_path, data_name)).readlines())
-            if data_len_max < len(engy):
-                data_len_max = len(engy)
             Engy.append(engy)
             F0.append(f0)
             y.append(label)
@@ -72,7 +70,7 @@ def IgnoreLowEnergyFrequence(Engy, F0):
 
         mean_engy = zero_freq_engy_sum / zero_freq_count
         for j in xrange(data_len):
-            if engy[j] <= mean_engy:
+            if engy[j] <= max(mean_engy, 1.0):
                 f0[j] = 0.0
 
         resEngy.append(engy)
@@ -112,6 +110,102 @@ def TrimData(Engy, F0):
         resF0.append(copy.copy(f0[start:end]))
     return resEngy, resF0
 
+def TransformToMelFrequencyScale(F0):
+    data_num = len(F0)
+    resF0 = []
+
+    for i in xrange(data_num):
+        f0 = copy.copy(F0[i])
+        data_len = len(f0)
+        for j in xrange(data_len):
+            f0[j] = 1127 * math.log(1 + f0[j] / 700)
+        resF0.append(f0)
+
+    return resF0
+
+def DivSingleDataStd(F0):
+    data_num = len(F0)
+    resF0 = []
+
+    for i in xrange(data_num):
+        f0 = copy.copy(F0[i])
+        data_len = len(f0)
+        f0arr = np.asarray(f0)
+        std = f0arr.std()
+        f0arr = f0arr / std
+        for j in xrange(data_len):
+            f0[j] = f0arr[j]
+        resF0.append(f0)
+
+    return resF0
+
+def DivDataStd(F0):
+    data_num = len(F0)
+    resF0 = []
+    tmp = []
+    for i in xrange(data_num):
+        for j in xrange(len(F0[i])):
+            tmp.append(F0[i][j])
+
+    F0arr = np.asarray(tmp)
+    std = F0arr.std()
+    for i in xrange(data_num):
+        f0 = copy.copy(F0[i])
+        data_len = len(f0)
+        for j in xrange(data_len):
+            f0[j] = f0[j] / std
+        resF0.append(f0)
+
+    return resF0
+
+def SmoothF0(F0):
+    C1 = 0.2
+    C2 = 0.5
+    data_num = len(F0)
+    resF0 = []
+    for i in xrange(data_num):
+        f0 = copy.copy(F0[i])
+        data_len = len(f0)
+        for j in xrange(1, data_len):
+            if abs(f0[j] - f0[j - 1]) < C1:
+                continue
+            if abs(f0[j] / 2 - f0[j - 1]) < C1:
+                f0[j] /= 2
+            elif abs(2 * f0[j] - f0[j - 1]) < C1:
+                f0[j] *= 2
+        ff0 = copy.copy([f0[0]] + f0 + [f0[-1]])
+        fff0 = copy.copy(ff0)
+        data_len = len(ff0)
+        f0_2 = (ff0[0], ff0[0])
+        for j in xrange(1, data_len - 1):
+            if abs(ff0[j] - ff0[j - 1]) > C1 and abs(ff0[j + 1] - ff0[j - 1]) > C2:
+                ff0[j] = 2 * f0_2[1] - f0_2[0]
+            elif abs(ff0[j] - ff0[j - 1]) > C1 and abs(ff0[j + 1] - ff0[j - 1]) <= C2:
+                ff0[j] = (ff0[j - 1] + ff0[j + 1]) / 2
+            f0_2 = (f0_2[1], ff0[j])
+
+        if abs(ff0[-1] - fff0[-1]) <= C1:
+            resF0.append(ff0[1:-1])
+            continue
+
+        f0_2 = (fff0[-1], fff0[-1])
+        for j in xrange(data_len - 2, 0, -1):
+            if abs(fff0[j] - fff0[j + 1]) > C1 and abs(fff0[j - 1] - fff0[j + 1]) > C2:
+                fff0[j] = 2 * f0_2[1] - f0_2[0]
+            elif abs(fff0[j] - fff0[j + 1]) > C1 and abs(fff0[j - 1] - fff0[j + 1]) <= C2:
+                fff0[j] = (fff0[j - 1] + fff0[j + 1]) / 2
+            f0_2 = (f0_2[1], fff0[j])
+
+        s = 0
+        for j in xrange(data_len - 2, 0, -1):
+            if abs(fff0[j] - ff0[j]) < C1:
+                s = j
+                break
+        res_f0 = ff0[: s + 1] + fff0[s + 1: ]
+        resF0.append(res_f0[1:-1])
+
+    return resF0
+
 def NormalizeDataLengthWithInterpolation(Engy, F0, result_len=200):
     data_num = len(Engy)
     if data_num != len(F0):
@@ -140,38 +234,15 @@ def NormalizeDataLengthWithInterpolation(Engy, F0, result_len=200):
     return resEngy, resF0
 
 def CenterlizeSingleData(data):
-    data_len = len(data)
-    result = copy.copy(data)
-    max_value = -100.
-    for i in xrange(data_len):
-        if data[i] > max_value:
-            max_value = data[i]
+    mean = np.asarray(data).mean()
+    for i in xrange(len(data)):
+        data[i] /= mean
+    return data
 
-    std_value = 0.8 * max_value
-    for i in xrange(data_len):
-        result[i] = data[i] / std_value
-    return result
-
-def CenterlizeData(Engy, F0):
-    for i in xrange(len(Engy)):
-        Engy[i] = CenterlizeSingleData(Engy[i])
-        F0[i] = CenterlizeSingleData(F0[i])
-    return Engy, F0
-
-def LogSingleData(data):
-    data_len = len(data)
-    result = copy.copy(data)
-    for i in xrange(data_len):
-        if data[i] <= 0:
-            data[i] = 0
-        result[i] = math.log(data[i] + 1) * 100
-    return result
-
-def LogData(Engy, F0):
-    for i in xrange(len(Engy)):
-        Engy[i] = LogSingleData(Engy[i])
-        F0[i] = LogSingleData(F0[i])
-    return Engy, F0
+def CenterlizeData(Data):
+    for i in xrange(len(Data)):
+        Data[i] = CenterlizeSingleData(Data[i])
+    return Data
 
 def SaveData(Engy, F0, y, mode='train'):
     save_engy_name = 'train_engys'
@@ -203,3 +274,16 @@ def SaveData(Engy, F0, y, mode='train'):
     f0_file.close()
     y_file.close()
 
+def PlotF0(F0, y):
+    max_len = max(map(len, F0))
+    for label in xrange(4):
+        for i in xrange(len(F0)):
+            if (y[i] != label):
+                continue
+            coff = float(max_len - 1) / (len(F0[i]) - 1)
+            x = np.arange(0, len(F0[i]), 1)
+            x = coff * x
+            fx = np.asarray(F0[i])
+            plt.plot(x, fx)
+        plt.savefig('train-plt_%d' % label)
+        plt.show()

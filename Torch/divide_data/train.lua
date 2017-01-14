@@ -10,7 +10,7 @@ local opt = lapp[[
   -s,--save          (default "logs")      subdirectory to save logs
   -f,--full                                use the full dataset
   -p,--plot                                plot while training
-  -o,--optimization  (default "ADAM")       optimization: SGD | LBFGS 
+  -o,--optimization  (default "SGD")       optimization: SGD | LBFGS 
   -r,--learningRate  (default 0.0003)        learning rate, for SGD only
   -b,--batchSize     (default 20)          batch size
   -m,--momentum      (default 0)           momentum, for SGD only

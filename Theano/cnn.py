@@ -23,10 +23,10 @@ n_train_batches = X_train.shape[0] / batch_size
 n_valid_batches = X_val.shape[0] / batch_size
 n_test_batches = X_test.shape[0] / batch_size
 
-learning_rate = 2e-3
+learning_rate = 1e-3
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
-eta_decay = np.array(1, dtype=theano.config.floatX)
+eta_decay = np.array(0.97, dtype=theano.config.floatX)
 
 index = T.lscalar()  # index to a [mini]batch
 X = T.tensor4('X')  # the data is presented as rasterized images
@@ -42,7 +42,7 @@ y = T.ivector('y')
 toneclassifer = ToneClassifier(
     input_channels=1, input_columns=input_columns,
     num_filters=[20, 50], filter_size=[[5, 1], [3, 1]],
-    hidden_size=500, num_classes=num_classes, input_X=X, input_y=y, reg=0)
+    hidden_size=500, num_classes=num_classes, input_X=X, input_y=y, reg=0, weight_scale=1e-2)
 
 
 d_params = [
@@ -94,7 +94,7 @@ test_score = 0.
 start_time = timeit.default_timer()
 epoch = 0
 done_looping = False
-n_epochs = 500
+n_epochs = 60
 
 while (epoch < n_epochs) and (not done_looping):
     X_train, y_train = data_utils.unison_shuffled_copies(X_train, y_train)

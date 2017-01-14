@@ -4,6 +4,7 @@ import scipy.interpolate as spi
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
 
 data_root = 'toneclassifier'
 train_data_path = "%s/train" % data_root
@@ -73,11 +74,11 @@ def IgnoreLowEnergyFrequence(Engy, F0):
         for j in xrange(data_len):
             if f0[j] < 1e-4:
                 zero_freq_count += 1
-                zero_freq_engy_sum += engy[j]
+                zero_freq_engy_sum += math.sqrt(engy[j])
 
         mean_engy = zero_freq_engy_sum / zero_freq_count
         for j in xrange(data_len):
-            if engy[j] <= max(mean_engy, 1.0):
+            if math.sqrt(engy[j]) <= max(mean_engy, 1.0):
                 f0[j] = 0.0
 
         resEngy.append(engy)
@@ -167,13 +168,15 @@ def DivDataStd(F0):
 
 def SmoothF0(F0):
     C1 = 0.2
-    C2 = 0.5
+    C2 = 0.45
     data_num = len(F0)
     resF0 = []
     for i in xrange(data_num):
         f0 = copy.copy(F0[i])
         data_len = len(f0)
         for j in xrange(1, data_len):
+            if f0[j] <= 1e-3:
+                continue
             if abs(f0[j] - f0[j - 1]) < C1:
                 continue
             if abs(f0[j] / 2 - f0[j - 1]) < C1:
@@ -185,6 +188,8 @@ def SmoothF0(F0):
         data_len = len(ff0)
         f0_2 = (ff0[0], ff0[0])
         for j in xrange(1, data_len - 1):
+            if ff0[j] <= 1e-3:
+                continue
             if abs(ff0[j] - ff0[j - 1]) > C1 and abs(ff0[j + 1] - ff0[j - 1]) > C2:
                 ff0[j] = 2 * f0_2[1] - f0_2[0]
             elif abs(ff0[j] - ff0[j - 1]) > C1 and abs(ff0[j + 1] - ff0[j - 1]) <= C2:
@@ -197,6 +202,8 @@ def SmoothF0(F0):
 
         f0_2 = (fff0[-1], fff0[-1])
         for j in xrange(data_len - 2, 0, -1):
+            if fff0[j] <= 1e-3:
+                continue
             if abs(fff0[j] - fff0[j + 1]) > C1 and abs(fff0[j - 1] - fff0[j + 1]) > C2:
                 fff0[j] = 2 * f0_2[1] - f0_2[0]
             elif abs(fff0[j] - fff0[j + 1]) > C1 and abs(fff0[j - 1] - fff0[j + 1]) <= C2:
@@ -209,6 +216,11 @@ def SmoothF0(F0):
                 s = j
                 break
         res_f0 = ff0[: s + 1] + fff0[s + 1: ]
+        data_len = len(res_f0)
+        for j in xrange(3, data_len - 3):
+            if res_f0[j] <= 1e-3:
+                continue
+            res_f0[j] = (res_f0[j - 2] + res_f0[j - 1] + res_f0[j] + res_f0[j + 1] + res_f0[j + 2]) / 5
         resF0.append(res_f0[1:-1])
 
     return resF0
@@ -243,7 +255,7 @@ def NormalizeDataLengthWithInterpolation(Engy, F0, result_len=200):
 def CenterlizeSingleData(data):
     mean = np.asarray(data).mean()
     for i in xrange(len(data)):
-        data[i] -= mean
+        data[i] /= mean
     return data
 
 def CenterlizeData(Data):
@@ -295,7 +307,44 @@ def PlotF0(mode='train', F0=None, y=None):
         plt.savefig('%s-plt_%d' % (mode, label))
         plt.clf()
 
+def Amplify(Data, times):
+    for i in xrange(len(Data)):
+        for j in xrange(len(Data[i])):
+            Data[i][j] *= times
+
+    return Data
+
 def unison_shuffled_copies(a, b):
     assert len(a) == len(b)
     p = np.random.permutation(len(a))
     return a[p], b[p]
+
+def order_two_f(x, a, b, c):
+    return a * x**2 + b * x + c
+
+def FitMissPoint(F0):
+    data_num = len(F0)
+    resF0 = []
+    for i in xrange(data_num):
+        f0 = F0[i]
+        data_len = len(f0)
+        x = []
+        y = []
+        for j in xrange(data_len):
+            if f0[j] > 1e-3:
+                x.append(j)
+                y.append(f0[j])
+        popt, pcov = curve_fit(order_two_f, x, y)
+        for j in xrange(data_len):
+            if f0[j] <= 1e-3:
+                f0[j] = order_two_f(j, popt[0], popt[1], popt[2])
+        resF0.append(f0)
+    return resF0
+
+def AddWhiteNoise(F0):
+    data_num = len(F0)
+    for i in xrange(data_num):
+        data_len = len(F0[i])
+        for j in xrange(data_len):
+            F0[i][j] += np.random.normal(0, 20)
+    return F0

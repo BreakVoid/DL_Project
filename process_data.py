@@ -9,13 +9,17 @@ def LoadAndProcessData(input_columns, mode, save=False, plot=False):
     F0 = data_utils.DivSingleDataStd(F0)
     F0 = data_utils.DivDataStd(F0)
     F0 = data_utils.SmoothF0(F0)
+    F0 = data_utils.FitMissPoint(F0)
+    if plot:
+        data_utils.PlotF0(mode, F0, y)
     F0 = data_utils.CenterlizeData(F0)
     # data_utils.PlotF0(mode, F0, y)
     Engy, F0 = data_utils.NormalizeDataLengthWithInterpolation(Engy, F0, result_len=input_columns)
-    if plot:
-        data_utils.PlotF0(mode, F0, y)
+
     if save:
         data_utils.SaveData(Engy, F0, y, mode)
+    F0 = data_utils.Amplify(F0, 100)
+    F0 = data_utils.AddWhiteNoise(F0)
     return Engy, F0, y
 
 

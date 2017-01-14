@@ -182,18 +182,6 @@ function val(dataset)
   confusion:zero()
 end
 
-for i=1,100 do
-  train(trainData)
-  val(valData)
-  if opt.plot then
-    trainLogger:style{['% mean class accuracy (train set)'] = '-'}
-    trainLogger:plot()
-    valLogger:style{['% mean class accuracy (val set)'] = '-'}
-    valLogger:plot()
-  end
-end
-
-
 -- test function
 function test(dataset)
   -- local vars
@@ -239,6 +227,19 @@ function test(dataset)
   valLogger:add{['% mean class accuracy (val set)'] = confusion.totalValid * 100}
   confusion:zero()
 end
+
+for i=1,50 do
+  train(trainData)
+  val(valData)
+  if opt.plot then
+    trainLogger:style{['% mean class accuracy (train set)'] = '-'}
+    trainLogger:plot()
+    valLogger:style{['% mean class accuracy (val set)'] = '-'}
+    valLogger:plot()
+  end
+end
+
+
 
 test(testData)
 testLogger:style{['% mean class accuracy (test set)'] = '-'}

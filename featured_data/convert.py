@@ -28,22 +28,21 @@ f0_file = open("../data/test_f0s", "r")
 f0s = []
 
 for line in f0_file.readlines():
-            f0s.append(map(int, map(float, line.split())))
+    f0s.append(map(int, map(float, line.split())))
 
 labels = []
 for line in open("../data/test_labels", "r").readlines():
-	    labels.append(int(line))
+	labels.append(int(line))
 
 i = 0
 for f0 in f0s:
-	    sig = np.int_(f0)
-	    mfcc_feat = mfcc(sig, samplerate=70)
-	    out_file = open("featured_test_f0s", "a")
+	sig = np.int_(f0)
+	mfcc_feat = mfcc(sig, samplerate=70)
+	out_file = open("featured_test_f0s", "a")
+	for j in xrange(len(mfcc_feat[0])):
+		for k in xrange(len(mfcc_feat)):
+		    out_file.write("%.8f " % mfcc_feat[k][j])
+		    out_file.write("\n")
 
-            for j in xrange(len(mfcc_feat[0])):
-                        for k in xrange(len(mfcc_feat)):
-		                    out_file.write("%.8f " % mfcc_feat[k][j])
-		        out_file.write("\n")
-
-            out_file.close()
+	out_file.close()
 

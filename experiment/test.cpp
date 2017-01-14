@@ -23,9 +23,8 @@ int main()
                 }
                 sum /= (double)data.size();
                 for (vector<double>::iterator i = data.begin(); i < data.end(); ++i) {
-                        cout << (*i) - sum << " ";
+                        cout << (*i) - sum << endl;
                 }
-                cout << endl;
         }
         return 0;
 }

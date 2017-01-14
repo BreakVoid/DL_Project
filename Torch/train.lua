@@ -19,6 +19,7 @@ local opt = lapp[[
   L1 penalty on the weights
   --coefL2           (default 0)           L2 penalty on the weights
   -t,--threads       (default 4)           number of threads
+  -e,--epoch         (default 165)          number of epochs
   ]]
 
 parameters,gradParameters = model:getParameters()
@@ -136,59 +137,18 @@ function train(dataset)
 end
 
 
--- val function
-function val(dataset)
-  -- local vars
-  local time = sys.clock()
-
-  -- test over given dataset
-  print('<trainer> on val Set:')
-
-  for t = 1,dataset:size(),opt.batchSize do
-    -- disp progress
-    xlua.progress(t, dataset:size())
-
-    -- create mini batch
-    local inputs = torch.Tensor(opt.batchSize,1,1,width)
-    local targets = torch.Tensor(opt.batchSize)
-    local k = 1
-    for i = t,math.min(t+opt.batchSize-1,dataset:size()) do
-      -- load new sample
-      local sample = dataset[i]
-      local input = sample[1]:clone()
-      local target = sample[2]:clone()
-      target = target:squeeze()
-      inputs[k] = input
-      targets[k] = target
-      k = k + 1
-    end
-    -- test samples
-    local preds = model:forward(inputs)
-
-    -- confusion:
-    for i = 1,opt.batchSize do
-      confusion:add(preds[i], targets[i])
-    end
-  end
-
-  -- timing
-  time = sys.clock() - time
-  time = time / dataset:size()
-  print("<trainer> time to test 1 sample = " .. (time*1000) .. 'ms')
-
-  -- print confusion matrix
-  print(confusion)
-  valLogger:add{['% mean class accuracy (val set)'] = confusion.totalValid * 100}
-  confusion:zero()
-end
-
 -- test function
 function test(dataset)
   -- local vars
   local time = sys.clock()
 
   -- test over given dataset
-  print('<trainer> on testing Set:')
+  if (dataset:size() == 40) then
+    print('<trainer> on validation Set:')
+  else
+    print('<trainer> on test Set:')
+  end
+
 
   for t = 1,dataset:size(),dataset:size() do
     -- disp progress
@@ -224,18 +184,18 @@ function test(dataset)
 
   -- print confusion matrix
   print(confusion)
-  valLogger:add{['% mean class accuracy (val set)'] = confusion.totalValid * 100}
+  testLogger:add{['% mean class accuracy (val set)'] = confusion.totalValid * 100}
   confusion:zero()
 end
 
-for i=1,50 do
+for i=1,opt.epoch do
   train(trainData)
-  val(valData)
+  test(testData)
   if opt.plot then
     trainLogger:style{['% mean class accuracy (train set)'] = '-'}
-    trainLogger:plot()
-    valLogger:style{['% mean class accuracy (val set)'] = '-'}
-    valLogger:plot()
+    --trainLogger:plot()
+    testLogger:style{['% mean class accuracy (val set)'] = '-'}
+    --testLogger:plot()
   end
 end
 
@@ -243,4 +203,4 @@ end
 
 test(testData)
 testLogger:style{['% mean class accuracy (test set)'] = '-'}
-testLogger:plot()
+-- testLogger:plot()

@@ -5,7 +5,7 @@ require 'nn'
 print(sys.COLORS.red ..  '==> define parameters')
 
 -- input dimensions
-width = 200
+width = 120
 
 print(sys.COLORS.red ..  '==> construct CNN')
 
@@ -18,11 +18,11 @@ CNN:add(nn.SpatialMaxPooling(2, 1, 2, 1))
 CNN:add(nn.SpatialConvolutionMM(20, 50, 3, 1, 1, 1))
 CNN:add(nn.Threshold())
 CNN:add(nn.SpatialMaxPooling(2, 1, 2, 1))
-CNN:add(nn.Reshape(50*48))
+CNN:add(nn.Reshape(50*28))
 
 local classifier = nn.Sequential()
 -- stage 2: Linear
-classifier:add(nn.Linear(50*48, 500))
+classifier:add(nn.Linear(50*28, 500))
 classifier:add(nn.Tanh())
 classifier:add(nn.Linear(500, 4))
 classifier:add(nn.LogSoftMax())
@@ -51,7 +51,7 @@ function trainData:size()
   return 400
 end
 
-file1 = io.open("./original_data/train_f", "r")
+file1 = io.open("./smooth_data/train_f", "r")
 file2 = io.open("./original_data/train_l", "r")
 
 for i = 1,trainData:size() do
@@ -73,7 +73,7 @@ function valData:size()
   return 40
 end
 
-file1 = io.open("./original_data/val_f", "r")
+file1 = io.open("./smooth_data/val_f", "r")
 file2 = io.open("./original_data/val_l", "r")
 
 for i = 1,valData:size() do
@@ -94,7 +94,7 @@ function testData:size()
   return 228
 end
 
-file1 = io.open("./original_data/test_f", "r")
+file1 = io.open("./smooth_data/test_f", "r")
 file2 = io.open("./original_data/test_l", "r")
 
 for i = 1,testData:size() do

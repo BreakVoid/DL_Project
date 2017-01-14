@@ -7,6 +7,7 @@ import gzip
 import struct
 import logging
 import time
+
 #import plot
 
 # def read_data(rootDir):
@@ -29,14 +30,14 @@ def read_data(label_url, tone_url):
 	#with open(label_url, 'r') as f_lbl:
 	label = np.loadtxt(label_url)
 	#with open(tone_url, 'r') as f_tone:
-	tone = np.loadtxt(tone_url)
+	tone = np.loadtxt(tone_url) * 100
 	#print label.shape
 	print tone.shape
 	return (label, tone)
 
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/featured_data/'
-#path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/smooth_data/'
-path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/data/'
+path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL/DL_Project/smooth_data/'
+#path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/data/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/experiment/'
 (train_lbl, train_tone) = read_data(
 	#path + 'train_labels', path + 'featured_train_f0s')
@@ -55,7 +56,7 @@ path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/data/'
 def to4d(tone):
 	#return tone.reshape(tone.shape[0] / 13, 1, 199, 13)
 	#return tone.reshape(tone.shape[0], 1, 120, 1)
-	return tone.reshape(tone.shape[0], 1, 200, 1)
+	return tone.reshape(tone.shape[0], 1, 120, 1)
 	
 batch_size = 20
 train_iter = mx.io.NDArrayIter(to4d(train_tone), train_lbl, batch_size, shuffle = True)
@@ -80,7 +81,7 @@ test_iter = mx.io.NDArrayIter(to4d(test_tone), test_lbl, batch_size)
 # data = mx.sym.Flatten(data = pool_)
 
 # The first fully-connected layer
-# fc1  = mx.sym.FullyConnected(data = data, name='fc1', num_hidden = 512)
+# fc1  = mx.sym.FullyConnected(data = data, name='fc1', num_hidden = 1024)
 # # Apply relu to the output of the first fully-connnected layer
 # act1 = mx.sym.Activation(data=fc1, name='relu1', act_type="relu")
 
@@ -111,7 +112,7 @@ pool2 = mx.symbol.Pooling(data = relu2, pool_type = "max", kernel = (2, 1), stri
 
 # first fullc layer
 flatten = mx.symbol.Flatten(data = pool2)
-fc1 = mx.symbol.FullyConnected(data = flatten, num_hidden = 500)
+fc1 = mx.symbol.FullyConnected(data = flatten, num_hidden = 512)
 relu1 = mx.symbol.Activation(data = fc1, act_type = "tanh")
 # second fullc
 # fc2 = mx.symbol.FullyConnected(data = tanh1, num_hidden = 512)
@@ -137,11 +138,11 @@ net = mx.symbol.SoftmaxOutput(data = fc3, name = 'softmax')
 # relu2_1 = mx.sym.Activation(data = conv2_1, act_type = "relu")
 # pool2 = mx.sym.Pooling(data = relu2_1, pool_type = "max", kernel = (2, 1), stride = (2, 1))
 
-# # conv3_1 = mx.sym.Convolution(data = pool2, kernel = (3, 1), num_filter = 32)
-# # relu3_1 = mx.sym.Activation(data = conv3_1, act_type = "relu")
-# # # conv3_2 = mx.sym.Convolution(data = relu3_1, kernel = (3, 1), num_filter = 32)
-# # # relu3_2 = mx.sym.Activation(data = conv3_2, act_type = "relu")
-# # pool3 = mx.sym.Pooling(data = relu3_1, pool_type = "max", kernel = (2, 1), stride = (2, 1))
+# conv3_1 = mx.sym.Convolution(data = pool2, kernel = (3, 1), num_filter = 64)
+# relu3_1 = mx.sym.Activation(data = conv3_1, act_type = "relu")
+# # conv3_2 = mx.sym.Convolution(data = relu3_1, kernel = (3, 1), num_filter = 8)
+# # relu3_2 = mx.sym.Activation(data = conv3_2, act_type = "relu")
+# pool3 = mx.sym.Pooling(data = relu3_1, pool_type = "max", kernel = (2, 1), stride = (2, 1))
 
 # # conv4_1 = mx.sym.Convolution(data = pool3, kernel = (3, 1), num_filter = 64)
 # # relu4_1 = mx.sym.Activation(data = conv4_1, act_type = "relu")
@@ -155,7 +156,7 @@ net = mx.symbol.SoftmaxOutput(data = fc3, name = 'softmax')
 # # relu5_2 = mx.sym.Activation(data = conv5_2, act_type = "relu")
 # # pool5 = mx.sym.Pooling(data = relu5_2, pool_type = "max", kernel = (2, 1), stride = (2, 1))
 
-# flatten = mx.sym.Flatten(data = pool2)
+# flatten = mx.sym.Flatten(data = pool3)
 # fc6 = mx.sym.FullyConnected(data = flatten, num_hidden = 512)
 # relu6 = mx.sym.Activation(data = fc6, act_type = "relu")
 # #drop6 = mx.sym.Dropout(data = relu6, p = 0.5)
@@ -185,8 +186,8 @@ model.fit(
     train_iter,       # training data
     eval_data = val_iter, # validation data
     optimizer = 'adam',
-    optimizer_params = {'learning_rate':1e-5, 'decay_factor':0.95},
-    num_epoch = 1000,
+    optimizer_params = {'learning_rate':1e-4, 'decay_factor':0.95},
+    num_epoch = 100,
     eval_metric = 'acc',
     #epoch_end_callback = checkpoint,
 )

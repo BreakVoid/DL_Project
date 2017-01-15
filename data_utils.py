@@ -167,8 +167,8 @@ def DivDataStd(F0):
     return resF0
 
 def SmoothF0(F0):
-    C1 = 0.08
-    C2 = 0.2
+    C1 = 0.16
+    C2 = 0.4
     data_num = len(F0)
     resF0 = []
     for i in xrange(data_num):
@@ -314,9 +314,6 @@ def unison_shuffled_copies(a, b):
     p = np.random.permutation(len(a))
     return a[p], b[p]
 
-def order_two_f(x, a, b, c):
-    return a * x**2 + b * x + c
-
 def FitMissPoint(F0):
     data_num = len(F0)
     resF0 = []
@@ -324,22 +321,17 @@ def FitMissPoint(F0):
         f0 = F0[i]
         data_len = len(f0)
         f0arr = np.asarray(f0)
-        minValue = np.inf
-        for j in xrange(data_len):
-            if f0[j] > 1e-3:
-                minValue = min(f0[j], minValue)
+        mean = f0arr.mean()
         x = []
         y = []
         for j in xrange(data_len):
-            f0[j] -= minValue
-            if f0[j] > 1e-3:
+            if f0[j] > 0.1 * mean:
                 x.append(j)
                 y.append(f0[j])
-        popt, pcov = curve_fit(order_two_f, x, y)
+        z = np.poly1d(np.polyfit(x, y, 2))
         for j in xrange(data_len):
-            if f0[j] <= 1e-3:
-                f0[j] = order_two_f(j, popt[0], popt[1], popt[2])
-            f0[j] += minValue
+            if f0[j] <= 0.1 * mean:
+                f0[j] = z(j)
         resF0.append(f0)
     return resF0
 
@@ -348,5 +340,73 @@ def AddWhiteNoise(F0):
     for i in xrange(data_num):
         data_len = len(F0[i])
         for j in xrange(data_len):
-            F0[i][j] += np.random.normal(0, 1e-5)
+            F0[i][j] += np.random.normal(0, 1e-4)
+    return F0
+
+def FitSingleData(f0):
+    data_len = len(f0)
+    flag = []
+    x = []
+    y = []
+    for i in xrange(data_len):
+        if f0[i] > 0:
+            x.append(i)
+            y.append(f0[i])
+            flag.append(True)
+        else:
+            flag.append(False)
+
+    z = np.polyfit(x, y, 2)
+    a, b, c = z
+    z = np.poly1d(z)
+    for i in xrange(data_len):
+        if f0[i] <= 1.:
+            f0[i] = z(i)
+    # Solve 2a * x + b == 0
+    g = -b / 2 * a
+    g = int(g)
+    if g > 0 and g < data_len:
+        part_a = f0[: g]
+        flag_a = flag[: g]
+        part_b = f0[g: ]
+        flag_b = flag[g: ]
+
+        x = []
+        y = []
+        for i in xrange(len(part_a)):
+            x.append(i)
+            y.append(f0[i])
+        z = np.poly1d(np.polyfit(x, y, 1))
+        for i in xrange(len(part_a)):
+            if not flag_a[i]:
+                part_a[i] = z(i)
+
+        x = []
+        y = []
+        for i in xrange(len(part_b)):
+            x.append(i)
+            y.append(f0[i])
+        z = np.poly1d(np.polyfit(x, y, 1))
+        for i in xrange(len(part_b)):
+            if not flag_b[i]:
+                part_b[i] = z(i)
+
+        f0 = part_a + part_b
+    else:
+        x = []
+        y = []
+        for i in xrange(data_len):
+            x.append(i)
+            y.append(f0[i])
+        z = np.poly1d(np.polyfit(x, y, 1))
+        for i in xrange(data_len):
+            if not flag[i]:
+                f0[i] = z(i)
+    return f0
+
+def FitData(F0):
+    data_num = len(F0)
+    for i in xrange(data_num):
+        F0[i] = FitSingleData(F0[i])
+
     return F0

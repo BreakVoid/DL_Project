@@ -24,10 +24,10 @@ n_train_batches = X_train.shape[0] / batch_size
 n_valid_batches = X_val.shape[0] / batch_size
 n_test_batches = X_test.shape[0] / batch_size
 
-learning_rate = 5e-4
+learning_rate = 2e-4
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
-eta_decay = np.array(0.98, dtype=theano.config.floatX)
+eta_decay = np.array(0.97, dtype=theano.config.floatX)
 
 index = T.lscalar()  # index to a [mini]batch
 X = T.tensor4('X')  # the data is presented as rasterized images
@@ -42,8 +42,8 @@ y = T.ivector('y')
 # toneclassisifier_2c2f
 toneclassifer = ToneClassifier(
     input_channels=1, input_columns=input_columns,
-    num_filters=[32, 64], filter_size=[[5, 1], [3, 1]],
-    hidden_size=640, num_classes=num_classes, input_X=X, input_y=y, reg=0, weight_scale=5e-3)
+    num_filters=[20, 50], filter_size=[[5, 1], [3, 1]],
+    hidden_size=500, num_classes=num_classes, input_X=X, input_y=y, reg=0, weight_scale=1e-2)
 
 
 # d_params = [
@@ -56,7 +56,7 @@ toneclassifer = ToneClassifier(
 
 updates = cnn_utils.adam(loss=toneclassifer.loss,
                          all_params=toneclassifer.params,
-                         learning_rate=learning_rate)
+                         learning_rate=eta)
 
 train_model = theano.function(
     inputs=[index],
@@ -86,7 +86,7 @@ test_model = theano.function(
     }
 )
 
-validation_frequency = n_train_batches
+validation_frequency = min(20, n_train_batches)
                               # go through this many
                               # minibatche before checking the network
                               # on the validation set; in this case we
@@ -100,7 +100,7 @@ test_score = 0.
 start_time = timeit.default_timer()
 epoch = 0
 done_looping = False
-n_epochs = 300
+n_epochs = 1000
 
 while (epoch < n_epochs) and (not done_looping):
     X_train, y_train = data_utils.unison_shuffled_copies(X_train, y_train)
@@ -120,32 +120,34 @@ while (epoch < n_epochs) and (not done_looping):
             validation_loss = [validation[1] for validataion in validataions]
             this_validation_acc = np.mean(validation_acc)
             this_validation_loss = np.mean(validation_loss)
+            test_losses = [test_model(i) for i in range(n_test_batches)]
+            test_score = np.mean(test_losses)
             print(
-                'epoch %i, minibatch %i/%i, train loss %f, validation loss %f, validation accuracy %f %%' %
+                'epoch %i, minibatch %i/%i, train loss %f, validation loss %f, validation accuracy %f %%, test accuracy %f %%' %
                 (
                     epoch,
                     minibatch_index + 1,
                     n_train_batches,
                     minibatch_avg_cost,
                     this_validation_loss,
-                    this_validation_acc * 100.
+                    this_validation_acc * 100.,
+                    test_score * 100.
                 )
             )
-            if this_validation_loss < best_validation_loss or this_validation_acc > best_train_acc:
-                best_validation_loss = this_validation_loss
-                best_train_acc = this_validation_acc
-                best_iter = iter
-
-                # test it on the test set
-                test_losses = [test_model(i) for i
-                               in range(n_test_batches)]
-                test_score = np.mean(test_losses)
-
-                print(('     epoch %i, minibatch %i/%i, test accuracy of '
-                       'best model %f %%') %
-                      (epoch, minibatch_index + 1, n_train_batches,
-                       test_score * 100.))
-
+            # if this_validation_loss < best_validation_loss or this_validation_acc > best_train_acc:
+            #     best_validation_loss = this_validation_loss
+            #     best_train_acc = this_validation_acc
+            #     best_iter = iter
+            #
+            #     # test it on the test set
+            #     test_losses = [test_model(i) for i
+            #                    in range(n_test_batches)]
+            #     test_score = np.mean(test_losses)
+            #
+            #     print(('     epoch %i, minibatch %i/%i, test accuracy of '
+            #            'best model %f %%') %
+            #           (epoch, minibatch_index + 1, n_train_batches,
+            #            test_score * 100.))
     eta.set_value(eta.get_value() * eta_decay)
 end_time = timeit.default_timer()
 print(('Optimization complete. Best validation score of %f %% '

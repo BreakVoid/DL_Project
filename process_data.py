@@ -5,14 +5,13 @@ def LoadAndProcessData(input_columns, mode, save=False, plot=False):
     Engy, F0, y = data_utils.LoadData(mode)
     Engy, F0 = data_utils.IgnoreLowEnergyFrequence(Engy, F0)
     Engy, F0 = data_utils.TrimData(Engy, F0)
-
+    F0 = data_utils.FitData(F0)
     F0 = data_utils.TransformToMelFrequencyScale(F0)
-
     F0 = data_utils.DivSingleDataStd(F0)
     F0 = data_utils.DivDataStd(F0)
-    # F0 = data_utils.SmoothF0(F0)
-    F0 = data_utils.FitMissPoint(F0)
     F0 = data_utils.SmoothF0(F0)
+    # F0 = data_utils.FitMissPoint(F0)
+    # F0 = data_utils.SmoothF0(F0)
     F0 = data_utils.CenterlizeData(F0)
     if plot:
         data_utils.PlotF0(mode, F0, y)
@@ -22,8 +21,8 @@ def LoadAndProcessData(input_columns, mode, save=False, plot=False):
 
     if save:
         data_utils.SaveData(Engy, F0, y, mode)
-    F0 = data_utils.Amplify(F0, 100)
-    F0 = data_utils.AddWhiteNoise(F0)
+    # F0 = data_utils.Amplify(F0, 20)
+    # F0 = data_utils.AddWhiteNoise(F0)
     return Engy, F0, y
 
 

@@ -1,34 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e80b1dd4-609b-49ca-af86-bf79c9495f33" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/report/scifile.synctex.gz" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/scifile.pdf" afterPath="$PROJECT_DIR$/report/scifile.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-plt_0.png" afterPath="$PROJECT_DIR$/test-plt_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-plt_1.png" afterPath="$PROJECT_DIR$/test-plt_1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-plt_2.png" afterPath="$PROJECT_DIR$/test-plt_2.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-plt_3.png" afterPath="$PROJECT_DIR$/test-plt_3.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train-plt_0.png" afterPath="$PROJECT_DIR$/train-plt_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train-plt_1.png" afterPath="$PROJECT_DIR$/train-plt_1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train-plt_2.png" afterPath="$PROJECT_DIR$/train-plt_2.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train-plt_3.png" afterPath="$PROJECT_DIR$/train-plt_3.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/val-plt_0.png" afterPath="$PROJECT_DIR$/val-plt_0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/val-plt_1.png" afterPath="$PROJECT_DIR$/val-plt_1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/val-plt_2.png" afterPath="$PROJECT_DIR$/val-plt_2.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/val-plt_3.png" afterPath="$PROJECT_DIR$/val-plt_3.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Theano/cnn.py" afterPath="$PROJECT_DIR$/Theano/cnn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_utils.py" afterPath="$PROJECT_DIR$/data_utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/process_data.py" afterPath="$PROJECT_DIR$/process_data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/report/scifile.tex" afterPath="$PROJECT_DIR$/report/scifile.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_engys" afterPath="$PROJECT_DIR$/test_engys" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_f0s" afterPath="$PROJECT_DIR$/test_f0s" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train_engys" afterPath="$PROJECT_DIR$/train_engys" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/train_f0s" afterPath="$PROJECT_DIR$/train_f0s" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/val_engys" afterPath="$PROJECT_DIR$/val_engys" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/val_f0s" afterPath="$PROJECT_DIR$/val_f0s" />
-    </list>
+    <list default="true" id="e80b1dd4-609b-49ca-af86-bf79c9495f33" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

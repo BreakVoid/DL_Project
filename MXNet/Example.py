@@ -35,6 +35,7 @@ def read_data(label_url, tone_url):
 	print tone.shape
 	return (label, tone)
 
+#path = '/Users/SkyBiG/Downloads/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/featured_data/'
 path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL/DL_Project/fitting_data/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/data/'
@@ -186,7 +187,7 @@ model.fit(
     train_iter,       # training data
     eval_data = val_iter, # validation data
     optimizer = 'adam',
-    optimizer_params = {'learning_rate':1e-4, 'decay_factor':0.95},
+    optimizer_params = {'learning_rate':1e-3, 'decay_factor':0.95},
     num_epoch = 200,
     eval_metric = 'acc',
     #epoch_end_callback = checkpoint,

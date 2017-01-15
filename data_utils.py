@@ -324,17 +324,22 @@ def FitMissPoint(F0):
         f0 = F0[i]
         data_len = len(f0)
         f0arr = np.asarray(f0)
-        mean = f0arr.mean()
+        minValue = np.inf
+        for j in xrange(data_len):
+            if f0[j] > 1e-3:
+                minValue = min(f0[j], minValue)
         x = []
         y = []
         for j in xrange(data_len):
-            if f0[j] > 0.4 * mean:
+            f0[j] -= minValue
+            if f0[j] > 1e-3:
                 x.append(j)
                 y.append(f0[j])
         popt, pcov = curve_fit(order_two_f, x, y)
         for j in xrange(data_len):
-            if f0[j] <= 0.4 * mean:
+            if f0[j] <= 1e-3:
                 f0[j] = order_two_f(j, popt[0], popt[1], popt[2])
+            f0[j] += minValue
         resF0.append(f0)
     return resF0
 
@@ -343,5 +348,5 @@ def AddWhiteNoise(F0):
     for i in xrange(data_num):
         data_len = len(F0[i])
         for j in xrange(data_len):
-            F0[i][j] += np.random.normal(0, 1)
+            F0[i][j] += np.random.normal(0, 1e-5)
     return F0

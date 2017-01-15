@@ -27,7 +27,7 @@ n_test_batches = X_test.shape[0] / batch_size
 learning_rate = 5e-4
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
-eta_decay = np.array(0.95, dtype=theano.config.floatX)
+eta_decay = np.array(0.98, dtype=theano.config.floatX)
 
 index = T.lscalar()  # index to a [mini]batch
 X = T.tensor4('X')  # the data is presented as rasterized images
@@ -42,7 +42,7 @@ y = T.ivector('y')
 # toneclassisifier_2c2f
 toneclassifer = ToneClassifier(
     input_channels=1, input_columns=input_columns,
-    num_filters=[20, 80], filter_size=[[5, 1], [3, 1]],
+    num_filters=[32, 64], filter_size=[[5, 1], [3, 1]],
     hidden_size=640, num_classes=num_classes, input_X=X, input_y=y, reg=0, weight_scale=5e-3)
 
 

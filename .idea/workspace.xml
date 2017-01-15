@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e80b1dd4-609b-49ca-af86-bf79c9495f33" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Theano/nn_only_output.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-plt_0.png" afterPath="$PROJECT_DIR$/test-plt_0.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-plt_1.png" afterPath="$PROJECT_DIR$/test-plt_1.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test-plt_2.png" afterPath="$PROJECT_DIR$/test-plt_2.png" />
@@ -16,7 +17,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/val-plt_3.png" afterPath="$PROJECT_DIR$/val-plt_3.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Theano/cnn.py" afterPath="$PROJECT_DIR$/Theano/cnn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Theano/cnn_utils.py" afterPath="$PROJECT_DIR$/Theano/cnn_utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_utils.py" afterPath="$PROJECT_DIR$/data_utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/process_data.py" afterPath="$PROJECT_DIR$/process_data.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_f0s" afterPath="$PROJECT_DIR$/test_f0s" />
@@ -35,7 +35,7 @@
     <SUITE FILE_PATH="coverage/DL_Project$data_utils.coverage" NAME="data_utils Coverage Results" MODIFIED="1484396897399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DL_Project$cnn__1_.coverage" NAME="cnn Coverage Results" MODIFIED="1484063496132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Theano" />
     <SUITE FILE_PATH="coverage/DL_Project$overlap_plot.coverage" NAME="overlap-plot Coverage Results" MODIFIED="1484135079860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/DL_Project$cnn.coverage" NAME="cnn Coverage Results" MODIFIED="1484454801361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Theano" />
+    <SUITE FILE_PATH="coverage/DL_Project$cnn.coverage" NAME="cnn Coverage Results" MODIFIED="1484460752598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Theano" />
     <SUITE FILE_PATH="coverage/DL_Project$interpolation.coverage" NAME="interpolation Coverage Results" MODIFIED="1483882015176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
     <SUITE FILE_PATH="coverage/DL_Project$trim_interpolation.coverage" NAME="trim-interpolation Coverage Results" MODIFIED="1483883417377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
     <SUITE FILE_PATH="coverage/DL_Project$simple_cnn.coverage" NAME="simple_cnn Coverage Results" MODIFIED="1483942148781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -52,8 +52,8 @@
       <file leaf-file-name="data_utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="169" column="13" lean-forward="false" selection-start-line="169" selection-start-column="13" selection-end-line="169" selection-end-column="13" />
+            <state relative-caret-position="316">
+              <caret line="350" column="48" lean-forward="false" selection-start-line="350" selection-start-column="48" selection-end-line="350" selection-end-column="48" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -61,11 +61,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="toneclassifier_2c2f.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Theano/toneclassifier_2c2f.py">
+      <file leaf-file-name="cnn.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Theano/cnn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" column="49" lean-forward="false" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="49" />
+            <state relative-caret-position="-225">
+              <caret line="26" column="17" lean-forward="false" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -73,14 +73,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cnn.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Theano/cnn.py">
+      <file leaf-file-name="theano_cnn_1c1d.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Theano/theano_cnn_1c1d.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="119" column="53" lean-forward="false" selection-start-line="119" selection-start-column="53" selection-end-line="119" selection-end-column="53" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="255">
+              <caret line="18" column="44" lean-forward="false" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -88,8 +86,8 @@
       <file leaf-file-name="cnn_utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Theano/cnn_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
+            <state relative-caret-position="495">
+              <caret line="33" column="18" lean-forward="false" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -100,33 +98,19 @@
       <file leaf-file-name="cnn_process_data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Theano/cnn_process_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="process_data.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/process_data.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="27" lean-forward="false" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+            <state relative-caret-position="0">
+              <caret line="0" column="31" lean-forward="true" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="toneclassifier_2c3f.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Theano/toneclassifier_2c3f.py">
+      <file leaf-file-name="process_data.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/process_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="35" column="49" lean-forward="false" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="210">
+              <caret line="14" column="26" lean-forward="false" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -161,17 +145,19 @@
         <option value="$PROJECT_DIR$/Theano/toneclassifier.py" />
         <option value="$PROJECT_DIR$/overlap-plot.py" />
         <option value="$PROJECT_DIR$/overlap-plot.ipynb" />
-        <option value="$PROJECT_DIR$/Theano/process_data.py" />
         <option value="$PROJECT_DIR$/Theano/toneclassifier_2c3f.py" />
         <option value="$PROJECT_DIR$/Theano/data_utils.py" />
         <option value="$PROJECT_DIR$/Theano/cnn_process_data.py" />
         <option value="$PROJECT_DIR$/Theano/toneclassifier_2c2f.py" />
         <option value="$PROJECT_DIR$/Theano/nn.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/process_data.py" />
         <option value="$PROJECT_DIR$/Theano/cnn_utils.py" />
-        <option value="$PROJECT_DIR$/data_utils.py" />
+        <option value="$PROJECT_DIR$/Theano/nn_output.py" />
+        <option value="$PROJECT_DIR$/Theano/nn_only_output.py" />
+        <option value="$PROJECT_DIR$/Theano/process_data.py" />
         <option value="$PROJECT_DIR$/Theano/cnn.py" />
+        <option value="$PROJECT_DIR$/process_data.py" />
+        <option value="$PROJECT_DIR$/data_utils.py" />
       </list>
     </option>
   </component>
@@ -598,13 +584,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="773" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34067547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34067547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28836834" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -632,14 +618,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cnn.py" />
-    <entry file="file://$PROJECT_DIR$/scripts/ignore-low-eneg-frequence.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="8" lean-forward="false" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/interpolation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -802,24 +780,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/overlap-plot.py" />
-    <entry file="file://$PROJECT_DIR$/Theano/theano_cnn_1c1d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="44" lean-forward="true" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python2.7/site-packages/numpy/core/_methods.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
           <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Theano/process_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="43" lean-forward="false" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
         </state>
       </provider>
     </entry>
@@ -830,13 +794,6 @@
           <folding>
             <element signature="e#0#9#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Theano/nn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="41" lean-forward="true" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -858,34 +815,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Theano/toneclassifier_2c2f.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="49" lean-forward="false" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Theano/cnn_process_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/process_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="27" lean-forward="false" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python2.7/site-packages/theano/tensor/type.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -894,10 +823,82 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Theano/theano_cnn_1c1d.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="18" column="44" lean-forward="false" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Theano/toneclassifier_2c2f.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="49" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Theano/nn_only_output.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="38" lean-forward="false" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Theano/process_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="23" column="22" lean-forward="false" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Theano/cnn_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
+        <state relative-caret-position="495">
+          <caret line="33" column="18" lean-forward="false" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Theano/nn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="38" column="30" lean-forward="false" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/site-packages/theano/compile/function_module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="858" column="0" lean-forward="false" selection-start-line="858" selection-start-column="0" selection-end-line="858" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Theano/cnn_process_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="31" lean-forward="true" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Theano/cnn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-225">
+          <caret line="26" column="17" lean-forward="false" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
@@ -906,21 +907,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="169" column="13" lean-forward="false" selection-start-line="169" selection-start-column="13" selection-end-line="169" selection-end-column="13" />
+        <state relative-caret-position="316">
+          <caret line="350" column="48" lean-forward="false" selection-start-line="350" selection-start-column="48" selection-end-line="350" selection-end-column="48" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Theano/cnn.py">
+    <entry file="file://$PROJECT_DIR$/process_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="119" column="53" lean-forward="false" selection-start-line="119" selection-start-column="53" selection-end-line="119" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="210">
+          <caret line="14" column="26" lean-forward="false" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>

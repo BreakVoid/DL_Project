@@ -35,9 +35,9 @@ def read_data(label_url, tone_url):
 	print tone.shape
 	return (label, tone)
 
-#path = '/Users/SkyBiG/Downloads/'
+path = '/Users/SkyBiG/Downloads/final/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/featured_data/'
-path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL/DL_Project/fitting_data/'
+#path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL/DL_Project/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/data/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/experiment/'
 (train_lbl, train_tone) = read_data(
@@ -97,30 +97,33 @@ test_iter = mx.io.NDArrayIter(to4d(test_tone), test_lbl, batch_size)
 
 ##### LENET_change
 
+# param_list = [(5, 1), 64, (3, 1), 128, 512, 4, 1e-3, 0.95, relu, 20]
+
 data = mx.symbol.Variable('data')
 # first conv layer
-conv1 = mx.symbol.Convolution(data = data, kernel = (5, 1), num_filter = 20)
+conv1 = mx.symbol.Convolution(data = data, kernel = (5, 1), num_filter = 16)
 relu1 = mx.symbol.Activation(data = conv1, act_type = "relu")
 pool1 = mx.symbol.Pooling(data = relu1, pool_type = "max", kernel = (2, 1) , stride = (2, 1))
 # second conv layer
-conv2 = mx.symbol.Convolution(data = pool1, kernel = (3, 1), num_filter = 50)
+conv2 = mx.symbol.Convolution(data = pool1, kernel = (3, 1), num_filter = 48)
 relu2 = mx.symbol.Activation(data = conv2, act_type = "relu")
 pool2 = mx.symbol.Pooling(data = relu2, pool_type = "max", kernel = (2, 1), stride = (2, 1))
 
-# conv3 = mx.sym.Convolution(data = pool2, kernel = (3, 1), num_filter = 64)
+# conv3 = mx.sym.Convolution(data = pool2, kernel = (3, 1), num_filter = 16)
 # relu3 = mx.sym.Activation(data = conv3, act_type = "relu")
 # pool3 = mx.sym.Pooling(data = relu3, pool_type = "max", kernel = (2, 1), stride = (2, 1))
 
 # first fullc layer
 flatten = mx.symbol.Flatten(data = pool2)
-fc1 = mx.symbol.FullyConnected(data = flatten, num_hidden = 500)
+fc1 = mx.symbol.FullyConnected(data = flatten, num_hidden = 512)
 relu1 = mx.symbol.Activation(data = fc1, act_type = "tanh")
+# drop = mx.sym.Dropout(data = relu1, p = 0.5)
 # second fullc
 # fc2 = mx.symbol.FullyConnected(data = tanh1, num_hidden = 512)
 # tanh2 = mx.symbol.Activation(data = fc2, act_type = "tanh")
 
 # fc2 = mx.symbol.FullyConnected(data = relu1, num_hidden = 42)
-# relu2 = mx.symbol.Activation(data = fc2, act_type = "relu")
+# relu2 = mx.symbol.Activation(data = fc2, act_type = "tanh")
 
 fc3 = mx.symbol.FullyConnected(data = relu1, num_hidden = 4)
 
@@ -187,8 +190,8 @@ model.fit(
     train_iter,       # training data
     eval_data = val_iter, # validation data
     optimizer = 'adam',
-    optimizer_params = {'learning_rate':1e-3, 'decay_factor':0.95},
-    num_epoch = 200,
+    optimizer_params = {'learning_rate':1e-5, 'decay_factor':0.95},
+    num_epoch = 1000,
     eval_metric = 'acc',
     #epoch_end_callback = checkpoint,
 )

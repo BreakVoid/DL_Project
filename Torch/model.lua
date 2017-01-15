@@ -22,7 +22,9 @@ CNN:add(nn.Reshape(50*28))
 
 local classifier = nn.Sequential()
 -- stage 2: Linear
-classifier:add(nn.Linear(50*28, 500))
+classifier:add(nn.Linear(50*28, 1000))
+classifier:add(nn.Tanh())
+classifier:add(nn.Linear(1000, 500))
 classifier:add(nn.Tanh())
 classifier:add(nn.Linear(500, 4))
 classifier:add(nn.LogSoftMax())
@@ -51,7 +53,7 @@ function trainData:size()
   return 400
 end
 
-file1 = io.open("./divide_data/train_f", "r")
+file1 = io.open("./data_regenerate/train_f", "r")
 file2 = io.open("./original_data/train_l", "r")
 
 for i = 1,trainData:size() do
@@ -73,7 +75,7 @@ function valData:size()
   return 40
 end
 
-file1 = io.open("./divide_data/val_f", "r")
+file1 = io.open("./data_regenerate/val_f", "r")
 file2 = io.open("./original_data/val_l", "r")
 
 for i = 1,valData:size() do
@@ -94,7 +96,7 @@ function testData:size()
   return 228
 end
 
-file1 = io.open("./divide_data/test_f", "r")
+file1 = io.open("./data_regenerate/test_f", "r")
 file2 = io.open("./original_data/test_l", "r")
 
 for i = 1,testData:size() do

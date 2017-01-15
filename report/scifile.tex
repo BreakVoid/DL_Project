@@ -266,6 +266,7 @@ We first input the raw data into the {\it Three layers of Fully Connected Networ
 We also going to use a deep neural networks to show whether it is useful for the small data set to extract feature through a deep neural networks and then transfer with a net with seven {\it Convolution layers} with four {\it Pooling layers} and add two {\it Fully Connected layers} and {\it SoftmaxOutput layers}. And we will show the data performance in the {\bf Evaluation of Models}.
 
 \subsection{Evaluation of Models}
+
 We then evaluate all the models with our best data using \texttt{MXNet} (though it may not have the best performance, utilize its module and encapsulation, it is the simplest way to implement a networks.)
 And the following table shows the models work with our best data, it shows that VGG(we've changed many parameters) is too deep to learn from the data. Also, {\it Three layers of Fully Connected Networks} performances better than the {\it LeNet}, but it might not be true for \texttt{Theano} and \texttt{Torch}
 
@@ -285,6 +286,8 @@ And the following table shows the models work with our best data, it shows that 
 		\end{tabular}
 	\end{center}
 \end{table} 
+
+And from the total experiment, we learnt from it that the model is not the most important part for this assignment, maybe data preprocessing have more influence on the tone classification accuracy with small dataset.
 
 
 \section{Background of the Frameworks}

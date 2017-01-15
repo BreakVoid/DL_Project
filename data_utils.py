@@ -166,6 +166,24 @@ def DivDataStd(F0):
 
     return resF0
 
+def SmoothRawF0(F0):
+    C1 = 15
+    data_num = len(F0)
+    resF0 = []
+    for i in xrange(data_num):
+        f0 = copy.copy(F0[i])
+        data_len = len(f0)
+        for k in xrange(data_len - 1, -1, -1):
+            for j in xrange(k, data_len):
+                if abs(f0[j] - f0[j - 1]) < C1:
+                    continue
+                if abs(f0[j] / 2 - f0[j - 1]) < C1:
+                    f0[j] /= 2
+                elif abs(2 * f0[j] - f0[j - 1]) < C1:
+                    f0[j] *= 2
+        resF0.append(f0)
+    return resF0
+
 def SmoothF0(F0):
     C1 = 0.16
     C2 = 0.4
@@ -244,18 +262,26 @@ def NormalizeDataLengthWithInterpolation(Engy, F0, result_len=200):
 
     return resEngy, resF0
 
-def CenterlizeSingleData(data):
-    mean = np.asarray(data).mean()
+def SingleDataDivideMax(data):
+    mean = np.asarray(data).max()
     for i in xrange(len(data)):
         data[i] /= mean
+    return data
+
+def DataSetDivideMax(Data):
+    for i in xrange(len(Data)):
+        Data[i] = SingleDataDivideMax(Data[i])
+    return Data
+
+def SingleDataMinusMean(data):
     mean = np.asarray(data).mean()
     for i in xrange(len(data)):
         data[i] -= mean
     return data
 
-def CenterlizeData(Data):
+def DataSetMinusMean(Data):
     for i in xrange(len(Data)):
-        Data[i] = CenterlizeSingleData(Data[i])
+        Data[i] = SingleDataMinusMean(Data[i])
     return Data
 
 def SaveData(Engy, F0, y, mode='train'):
@@ -349,7 +375,7 @@ def FitSingleData(f0):
     x = []
     y = []
     for i in xrange(data_len):
-        if f0[i] > 0:
+        if f0[i] > 10:
             x.append(i)
             y.append(f0[i])
             flag.append(True)
@@ -363,9 +389,9 @@ def FitSingleData(f0):
         if f0[i] <= 1.:
             f0[i] = z(i)
     # Solve 2a * x + b == 0
-    g = -b / 2 * a
+    g = -b / (2 * a)
     g = int(g)
-    if g > 0 and g < data_len:
+    if g > 1 and g < data_len - 1:
         part_a = f0[: g]
         flag_a = flag[: g]
         part_b = f0[g: ]

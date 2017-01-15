@@ -38,7 +38,7 @@ class ToneClassifier(object):
         self.affine_bias_0 = theano.shared(
             np.random.normal(0, weight_scale, hidden_size),
             name='affine_bias_0')
-        self.hidden_output_0 = T.nnet.relu(
+        self.hidden_output_0 = T.tanh(
             T.dot(self.fully_connected_nn_input, self.affine_weights_0)
             + self.affine_bias_0.dimshuffle('x', 0))
 

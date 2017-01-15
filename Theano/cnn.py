@@ -24,7 +24,7 @@ n_train_batches = X_train.shape[0] / batch_size
 n_valid_batches = X_val.shape[0] / batch_size
 n_test_batches = X_test.shape[0] / batch_size
 
-learning_rate = 2e-4
+learning_rate = 1.5e-4
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
 eta_decay = np.array(0.97, dtype=theano.config.floatX)
@@ -54,13 +54,13 @@ toneclassifer = ToneClassifier(
 #     (param, param - eta * d_param) for param, d_param in zip(toneclassifer.params, d_params)
 # ]
 
-updates = cnn_utils.adam(loss=toneclassifer.loss,
-                         all_params=toneclassifer.params,
-                         learning_rate=eta)
+updates = cnn_utils.Adam(cost=toneclassifer.loss,
+                         params=toneclassifer.params,
+                         lr=eta)
 
 train_model = theano.function(
     inputs=[index],
-    outputs=toneclassifer.loss,
+    outputs=[toneclassifer.loss, toneclassifer.error],
     updates=updates,
     givens={
         X: X_train_shared[index * batch_size: (index + 1) * batch_size],
@@ -109,7 +109,7 @@ while (epoch < n_epochs) and (not done_looping):
     epoch = epoch + 1
     for minibatch_index in range(n_train_batches):
 
-        minibatch_avg_cost = train_model(minibatch_index)
+        minibatch_avg_cost, minibatch_acc = train_model(minibatch_index)
         # iteration number
         iter = (epoch - 1) * n_train_batches + minibatch_index
 
@@ -117,19 +117,20 @@ while (epoch < n_epochs) and (not done_looping):
             # compute zero-one loss on validation set
             validataions = [validate_model(i) for i in range(n_valid_batches)]
             validation_acc = [validation[0] for validation in validataions]
-            validation_loss = [validation[1] for validataion in validataions]
+            validation_loss = [validataion[1] for validataion in validataions]
             this_validation_acc = np.mean(validation_acc)
             this_validation_loss = np.mean(validation_loss)
             test_losses = [test_model(i) for i in range(n_test_batches)]
             test_score = np.mean(test_losses)
             print(
-                'epoch %i, minibatch %i/%i, train loss %f, validation loss %f, validation accuracy %f %%, test accuracy %f %%' %
+                'epoch %i, minibatch %i/%i, train loss %f, validation loss %f, train acc %f %%, validation acc %f %%, test acc %f %%' %
                 (
                     epoch,
                     minibatch_index + 1,
                     n_train_batches,
                     minibatch_avg_cost,
                     this_validation_loss,
+                    minibatch_acc * 100.,
                     this_validation_acc * 100.,
                     test_score * 100.
                 )

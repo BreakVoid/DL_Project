@@ -11,10 +11,11 @@ local opt = lapp[[
   -f,--full                                use the full dataset
   -p,--plot                                plot while training
   -o,--optimization  (default "ADAM")       optimization: SGD | LBFGS 
-  -r,--learningRate  (default 0.0003)        learning rate, for SGD only
+  -r,--learningRate  (default 0.001)        learning rate, for SGD only
   -b,--batchSize     (default 20)          batch size
   -m,--momentum      (default 0)           momentum, for SGD only
-  -i,--maxIter       (default 3)           maximum nb of iterations per batch, for LBFGS
+  -i,--maxIter       (default 3)           maximum nb of iterations per batch, f
+or LBFGS
   --coefL1           (default 0)
   L1 penalty on the weights
   --coefL2           (default 0)           L2 penalty on the weights

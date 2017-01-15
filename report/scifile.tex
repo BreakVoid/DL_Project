@@ -261,6 +261,8 @@ In this part, we're going to show some models we used to solve tone classificati
 We first input the raw data into the {\it Three layers of Fully Connected Networks} to assure the lower bound of the test accuracy. We find that {\it Three layers of Fully Connected Networks} can also perform well with the data with only {\it ignore the low energy data} and {\it Trim the frequency data} and the accuracy can up to 80.12\%. Therefore, we've learnt from it that the net below 80\% cannot learn well with the these train dataset.
 
 \subsection{Variant of the LeNet}
+The {\it LeNet} is most important model in our experiment. Almost all of the data is input to this model.
+And it can have much better performance when we only use two {\it Convolution layers} with two {\it Pooling layers} and add one {\it Fully Connected layers} and {\it SoftmaxOutput}. When we add an addition {\it CNN layers} or {\it Fully Connected layers} it will effect the accuracy and training time for the  dataset. Therefore, we regard this as our best model.
 
 \subsection{Variant of VGG}
 We also going to use a deep neural networks to show whether it is useful for the small data set to extract feature through a deep neural networks and then transfer with a net with seven {\it Convolution layers} with four {\it Pooling layers} and add two {\it Fully Connected layers} and {\it SoftmaxOutput layers}. And we will show the data performance in the {\bf Evaluation of Models}.

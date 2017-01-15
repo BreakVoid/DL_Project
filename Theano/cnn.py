@@ -5,6 +5,7 @@ import numpy as np
 from cnn_process_data import *
 from toneclassifier_2c2f import ToneClassifier
 import data_utils
+import cnn_utils
 
 data_utils.SetPath('../toneclassifier')
 
@@ -23,7 +24,7 @@ n_train_batches = X_train.shape[0] / batch_size
 n_valid_batches = X_val.shape[0] / batch_size
 n_test_batches = X_test.shape[0] / batch_size
 
-learning_rate = 5e-4
+learning_rate = 1e-4
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
 eta_decay = np.array(0.999, dtype=theano.config.floatX)
@@ -42,16 +43,20 @@ y = T.ivector('y')
 toneclassifer = ToneClassifier(
     input_channels=1, input_columns=input_columns,
     num_filters=[64, 128], filter_size=[[5, 1], [3, 1]],
-    hidden_size=1024, num_classes=num_classes, input_X=X, input_y=y, reg=0, weight_scale=1e-2)
+    hidden_size=1024, num_classes=num_classes, input_X=X, input_y=y, reg=0, weight_scale=5e-3)
 
 
-d_params = [
-    T.grad(toneclassifer.loss, param) for param in toneclassifer.params
-]
+# d_params = [
+#     T.grad(toneclassifer.loss, param) for param in toneclassifer.params
+# ]
+#
+# updates = [
+#     (param, param - eta * d_param) for param, d_param in zip(toneclassifer.params, d_params)
+# ]
 
-updates = [
-    (param, param - eta * d_param) for param, d_param in zip(toneclassifer.params, d_params)
-]
+updates = cnn_utils.adam(loss=toneclassifer.loss,
+                         all_params=toneclassifer.params,
+                         learning_rate=learning_rate)
 
 train_model = theano.function(
     inputs=[index],

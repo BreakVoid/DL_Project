@@ -167,8 +167,8 @@ def DivDataStd(F0):
     return resF0
 
 def SmoothF0(F0):
-    C1 = 0.2
-    C2 = 0.45
+    C1 = 0.12
+    C2 = 0.3
     data_num = len(F0)
     resF0 = []
     for i in xrange(data_num):

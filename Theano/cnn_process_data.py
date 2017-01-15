@@ -16,4 +16,22 @@ def ImportData(input_columns, mode='train'):
     return X, y
 
 
+def ImportExistedX(filename):
+    data_file = open(filename, "r")
+    data = []
+    for line in data_file.readlines():
+        data.append(map(float, line.split()))
+    data = [data]
+    X = np.asarray(data)
+    X = X.swapaxes(0, 1)
+    n, c, w = X.shape
+    X = X.reshape([n, c, w, 1])
+    return X
 
+def ImportExistedY(filename):
+    data_file = open(filename, "r")
+    data = []
+    for line in data_file.readlines():
+        data.append(int(line))
+    data = np.asarray(data, dtype=int32)
+    return data

@@ -314,7 +314,7 @@ def SaveData(Engy, F0, y, mode='train'):
     f0_file.close()
     y_file.close()
 
-def PlotF0(mode='train', F0=None, y=None):
+def PlotAndSaveF0(plot_prefix='train', F0=None, y=None):
     max_len = max(map(len, F0))
     for label in xrange(4):
         for i in xrange(len(F0)):
@@ -325,7 +325,7 @@ def PlotF0(mode='train', F0=None, y=None):
             x = coff * x
             fx = np.asarray(F0[i])
             plt.plot(x, fx)
-        plt.savefig('%s-plt_%d' % (mode, label))
+        plt.savefig('%s-plt_%d' % (plot_prefix, label))
         plt.clf()
 
 def Amplify(Data, times):

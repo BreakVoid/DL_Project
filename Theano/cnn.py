@@ -4,6 +4,7 @@ import theano.tensor as T
 import numpy as np
 from cnn_process_data import *
 from toneclassifier_2c2f import ToneClassifier
+from process_data import *
 import data_utils
 import cnn_utils
 
@@ -13,21 +14,32 @@ input_columns = 120
 num_classes = 4
 batch_size = 20
 
-X_train, y_train = ImportData(input_columns, 'train')
+# X_train, y_train = ImportData(input_columns, 'train')
+# X_val, y_val = ImportData(input_columns, 'val')
+# X_test, y_test = ImportData(input_columns, 'test')
+
+X_train = ImportExistedX("../Torch/best_data/train_f0s")
+X_val = ImportExistedX("../Torch/best_data/val_f0s")
+X_test = ImportExistedX("../Torch/best_data/test_f0s")
+
+
+y_train = ImportExistedY("../train_labels")
+y_val = ImportExistedY("../val_labels")
+y_test = ImportExistedY("../test_labels")
+
 X_train_shared, y_train_shared = theano.shared(X_train), theano.shared(y_train)
-X_val, y_val = ImportData(input_columns, 'val')
 X_val_shared, y_val_shared = theano.shared(X_val), theano.shared(y_val)
-X_test, y_test = ImportData(input_columns, 'test')
 X_test_shared, y_test_shared = theano.shared(X_test), theano.shared(y_test)
+
 
 n_train_batches = X_train.shape[0] / batch_size
 n_valid_batches = X_val.shape[0] / batch_size
 n_test_batches = X_test.shape[0] / batch_size
 
-learning_rate = 1.5e-4
+learning_rate = 1e-5
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
-eta_decay = np.array(0.97, dtype=theano.config.floatX)
+eta_decay = np.array(1, dtype=theano.config.floatX)
 
 index = T.lscalar()  # index to a [mini]batch
 X = T.tensor4('X')  # the data is presented as rasterized images
@@ -100,7 +112,7 @@ test_score = 0.
 start_time = timeit.default_timer()
 epoch = 0
 done_looping = False
-n_epochs = 1000
+n_epochs = 130
 
 while (epoch < n_epochs) and (not done_looping):
     X_train, y_train = data_utils.unison_shuffled_copies(X_train, y_train)

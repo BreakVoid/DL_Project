@@ -35,22 +35,23 @@ def read_data(label_url, tone_url):
 	print tone.shape
 	return (label, tone)
 
-path = '/Users/SkyBiG/Downloads/final/'
+path1 = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL/DL_Project/Torch/best_data/'
+path2 = '/Users/SkyBiG/Downloads/final/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/featured_data/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL/DL_Project/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/data/'
 #path = '/Users/SkyBiG/Desktop/Course/Deep Learning/Project/DL_Project/experiment/'
 (train_lbl, train_tone) = read_data(
 	#path + 'train_labels', path + 'featured_train_f0s')
-	path + 'train_labels', path + 'train_f0s')
+	path2 + 'train_labels', path1 + 'train_f0s')
 	#path + 'train_labels', path + 'train_f')
 (val_lbl, val_tone) = read_data(
 	#path + 'val_labels', path + 'featured_val_f0s')
-	path + 'test_labels', path + 'test_f0s')
+	path2 + 'test_labels', path1 + 'test_f0s')
 	#path + 'test_labels', path + 'test_f')
 (test_lbl, test_tone) = read_data(
  	#path + 'test_labels', path + 'featured_test_f0s')
- 	path + 'test_labels', path + 'test_f0s')
+ 	path2 + 'test_labels', path1 + 'test_f0s')
  	#path + 'test_labels', path + 'test_f')
 
 ################ FOR_ITER
@@ -101,15 +102,15 @@ test_iter = mx.io.NDArrayIter(to4d(test_tone), test_lbl, batch_size)
 
 data = mx.symbol.Variable('data')
 # first conv layer
-conv1 = mx.symbol.Convolution(data = data, kernel = (5, 1), num_filter = 16)
+conv1 = mx.symbol.Convolution(data = data, kernel = (5, 1), num_filter = 64)
 relu1 = mx.symbol.Activation(data = conv1, act_type = "relu")
 pool1 = mx.symbol.Pooling(data = relu1, pool_type = "max", kernel = (2, 1) , stride = (2, 1))
 # second conv layer
-conv2 = mx.symbol.Convolution(data = pool1, kernel = (3, 1), num_filter = 48)
+conv2 = mx.symbol.Convolution(data = pool1, kernel = (3, 1), num_filter = 128)
 relu2 = mx.symbol.Activation(data = conv2, act_type = "relu")
 pool2 = mx.symbol.Pooling(data = relu2, pool_type = "max", kernel = (2, 1), stride = (2, 1))
 
-# conv3 = mx.sym.Convolution(data = pool2, kernel = (3, 1), num_filter = 16)
+# conv3 = mx.sym.Convolution(data = pool2, kernel = (3, 1), num_filter = 64)
 # relu3 = mx.sym.Activation(data = conv3, act_type = "relu")
 # pool3 = mx.sym.Pooling(data = relu3, pool_type = "max", kernel = (2, 1), stride = (2, 1))
 
@@ -122,7 +123,7 @@ relu1 = mx.symbol.Activation(data = fc1, act_type = "tanh")
 # fc2 = mx.symbol.FullyConnected(data = tanh1, num_hidden = 512)
 # tanh2 = mx.symbol.Activation(data = fc2, act_type = "tanh")
 
-# fc2 = mx.symbol.FullyConnected(data = relu1, num_hidden = 42)
+# fc2 = mx.symbol.FullyConnected(data = relu1, num_hidden = 128)
 # relu2 = mx.symbol.Activation(data = fc2, act_type = "tanh")
 
 fc3 = mx.symbol.FullyConnected(data = relu1, num_hidden = 4)
@@ -190,8 +191,8 @@ model.fit(
     train_iter,       # training data
     eval_data = val_iter, # validation data
     optimizer = 'adam',
-    optimizer_params = {'learning_rate':1e-5, 'decay_factor':0.95},
-    num_epoch = 1000,
+    optimizer_params = {'learning_rate':1e-5},
+    num_epoch = 50,
     eval_metric = 'acc',
     #epoch_end_callback = checkpoint,
 )

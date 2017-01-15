@@ -89,3 +89,4 @@ ENV/
 .ropeproject
 
 report/.texpadtmp
+.DS_Store

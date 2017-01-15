@@ -18,9 +18,9 @@ batch_size = 20
 # X_val, y_val = ImportData(input_columns, 'val')
 # X_test, y_test = ImportData(input_columns, 'test')
 
-X_train = ImportExistedX("../Torch/best_data/train_f0s")
-X_val = ImportExistedX("../Torch/best_data/val_f0s")
-X_test = ImportExistedX("../Torch/best_data/test_f0s")
+X_train = ImportExistedX("../Torch/smooth_data/train_f0s")
+X_val = ImportExistedX("../Torch/smooth_data/val_f0s")
+X_test = ImportExistedX("../Torch/smooth_data/test_f0s")
 
 
 y_train = ImportExistedY("../train_labels")
@@ -113,8 +113,10 @@ start_time = timeit.default_timer()
 epoch = 0
 done_looping = False
 n_epochs = 130
+epoch_times = []
 
 while (epoch < n_epochs) and (not done_looping):
+    epoch_start_time = timeit.default_timer()
     X_train, y_train = data_utils.unison_shuffled_copies(X_train, y_train)
     X_val, y_val = data_utils.unison_shuffled_copies(X_val, y_val)
     X_test, y_test = data_utils.unison_shuffled_copies(X_test, y_test)
@@ -162,6 +164,8 @@ while (epoch < n_epochs) and (not done_looping):
             #           (epoch, minibatch_index + 1, n_train_batches,
             #            test_score * 100.))
     eta.set_value(eta.get_value() * eta_decay)
+    epoch_end_time = timeit.default_timer()
+    epoch_times.append(epoch_end_time - epoch_start_time)
 end_time = timeit.default_timer()
 print(('Optimization complete. Best validation score of %f %% '
        'obtained at iteration %i, with test performance %f %%') %
@@ -170,3 +174,4 @@ print(('Optimization complete. Best validation score of %f %% '
 test_losses = [test_model(i) for i in range(n_test_batches)]
 test_score = np.mean(test_losses)
 print(('final test accuracy of best model %f %%') % (test_score * 100.))
+print 'mean time cost per epoch', np.asarray(epoch_times).mean()

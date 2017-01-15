@@ -24,10 +24,10 @@ n_train_batches = X_train.shape[0] / batch_size
 n_valid_batches = X_val.shape[0] / batch_size
 n_test_batches = X_test.shape[0] / batch_size
 
-learning_rate = 1e-4
+learning_rate = 5e-4
 
 eta = theano.shared(np.array(learning_rate, dtype=theano.config.floatX))
-eta_decay = np.array(0.999, dtype=theano.config.floatX)
+eta_decay = np.array(0.95, dtype=theano.config.floatX)
 
 index = T.lscalar()  # index to a [mini]batch
 X = T.tensor4('X')  # the data is presented as rasterized images
@@ -42,8 +42,8 @@ y = T.ivector('y')
 # toneclassisifier_2c2f
 toneclassifer = ToneClassifier(
     input_channels=1, input_columns=input_columns,
-    num_filters=[64, 128], filter_size=[[5, 1], [3, 1]],
-    hidden_size=1024, num_classes=num_classes, input_X=X, input_y=y, reg=0, weight_scale=5e-3)
+    num_filters=[20, 80], filter_size=[[5, 1], [3, 1]],
+    hidden_size=640, num_classes=num_classes, input_X=X, input_y=y, reg=0, weight_scale=5e-3)
 
 
 # d_params = [
@@ -63,8 +63,8 @@ train_model = theano.function(
     outputs=toneclassifer.loss,
     updates=updates,
     givens={
-        X : X_train_shared[index * batch_size: (index + 1) * batch_size],
-        y : y_train_shared[index * batch_size: (index + 1) * batch_size]
+        X: X_train_shared[index * batch_size: (index + 1) * batch_size],
+        y: y_train_shared[index * batch_size: (index + 1) * batch_size]
     }
 )
 
@@ -72,8 +72,8 @@ validate_model = theano.function(
     inputs=[index],
     outputs=[toneclassifer.error, toneclassifer.loss],
     givens={
-        X : X_val_shared[index * batch_size: (index + 1) * batch_size],
-        y : y_val_shared[index * batch_size: (index + 1) * batch_size]
+        X: X_val_shared[index * batch_size: (index + 1) * batch_size],
+        y: y_val_shared[index * batch_size: (index + 1) * batch_size]
     }
 )
 
@@ -81,8 +81,8 @@ test_model = theano.function(
     inputs=[index],
     outputs=toneclassifer.error,
     givens={
-        X : X_test_shared[index * batch_size: (index + 1) * batch_size],
-        y : y_test_shared[index * batch_size: (index + 1) * batch_size]
+        X: X_test_shared[index * batch_size: (index + 1) * batch_size],
+        y: y_test_shared[index * batch_size: (index + 1) * batch_size]
     }
 )
 
@@ -94,6 +94,7 @@ validation_frequency = n_train_batches
 
 best_validation_loss = np.inf
 best_train_loss = np.inf
+best_train_acc = 0.
 best_iter = 0
 test_score = 0.
 start_time = timeit.default_timer()
@@ -130,8 +131,9 @@ while (epoch < n_epochs) and (not done_looping):
                     this_validation_acc * 100.
                 )
             )
-            if this_validation_loss < best_validation_loss:
+            if this_validation_loss < best_validation_loss or this_validation_acc > best_train_acc:
                 best_validation_loss = this_validation_loss
+                best_train_acc = this_validation_acc
                 best_iter = iter
 
                 # test it on the test set

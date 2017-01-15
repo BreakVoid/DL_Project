@@ -167,8 +167,8 @@ def DivDataStd(F0):
     return resF0
 
 def SmoothF0(F0):
-    C1 = 0.12
-    C2 = 0.3
+    C1 = 0.08
+    C2 = 0.2
     data_num = len(F0)
     resF0 = []
     for i in xrange(data_num):
@@ -209,10 +209,11 @@ def SmoothF0(F0):
                     s = j
                     break
             res_f0 = ff0[: s + 1] + fff0[s + 1: ]
+        res_f0 = [res_f0[0]] + res_f0 + [res_f0[-1]]
         data_len = len(res_f0)
         for j in xrange(2, data_len - 2):
-            res_f0[j] = (res_f0[j - 2] + res_f0[j - 1] + res_f0[j] + res_f0[j + 1] + res_f0[j + 2]) / 5
-        resF0.append(res_f0[1:-1])
+            res_f0[j] = (res_f0[j - 2] + res_f0[j - 1] + res_f0[j] + res_f0[j + 1] + res_f0[j + 2]) / 5.0
+        resF0.append(res_f0[2:-2])
 
     return resF0
 
@@ -247,6 +248,9 @@ def CenterlizeSingleData(data):
     mean = np.asarray(data).mean()
     for i in xrange(len(data)):
         data[i] /= mean
+    mean = np.asarray(data).mean()
+    for i in xrange(len(data)):
+        data[i] -= mean
     return data
 
 def CenterlizeData(Data):
@@ -339,5 +343,5 @@ def AddWhiteNoise(F0):
     for i in xrange(data_num):
         data_len = len(F0[i])
         for j in xrange(data_len):
-            F0[i][j] += np.random.normal(0, 1e-5)
+            F0[i][j] += np.random.normal(0, 1)
     return F0

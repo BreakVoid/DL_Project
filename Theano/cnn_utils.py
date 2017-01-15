@@ -1,7 +1,7 @@
 import theano
 import theano.tensor as T
 import numpy as np
-def adam(loss, all_params, learning_rate=0.001, b1=0.9, b2=0.999, e=1e-8,
+def adam(loss, all_params, learning_rate=0.001, b1=0.9, b2=0.99, e=1e-8,
          gamma=1-1e-8):
     """
     ADAM update rules
@@ -35,3 +35,20 @@ def adam(loss, all_params, learning_rate=0.001, b1=0.9, b2=0.999, e=1e-8,
         updates.append((theta_previous, theta) )
     updates.append((t, t + 1.))
     return updates
+
+def Gcd2(a, b):
+    if b == 0:
+        return a
+    else:
+        return Gcd2(b, a % b)
+
+def Gcd3(a, b, c):
+    return Gcd2(Gcd2(a, b), c)
+
+def LCM2(a, b):
+    gcd = Gcd2(a, b)
+    return a * b / gcd
+
+def LCM3(a, b, c):
+    gcd = Gcd3(a, b, c)
+    return a * b * c / gcd / gcd

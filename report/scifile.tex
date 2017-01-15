@@ -161,29 +161,42 @@ Three layers of Fully Connected Networks is the most simple model we used, and t
 
 \section{Background of the Frameworks}
 
-We now keep working on the second major part of our {\it DL\_project}. Before we compare with the three models, we first list some standard information, from which we may derive inspiration of deciding the comparative factors.
+We now keep working on the second major part of our {\it DL\_project}. Before we compare with the three models, we first list some standard information, from which we may derive inspiration of deciding the comparative factors.\\
+Most of the background information are from their {\it Official Site}.
 
 \subsection{\texttt{Torch}}
-
+The summary of core features of Torch can be listed as follows:
+\begin{itemize}
+	\item a powerful N-dimensional array
+	\item lots of routines for indexing, slicing, transposing, ...
+	\item amazing interface to C, via LuaJIT
+\end{itemize}
 \subsection{\texttt{Theano}}
 
-\subsection{\texttt{MXNet\\}}
+\subsection{\texttt{MXNet}}
 
 
 
 \section{Evaluation ***** edit}
 In this part, we're going to give a formal evaluation system for three frameworks --- \texttt{Torch}, \texttt{Theano}, \texttt{MXNet}. With the following aspects and the general idea to these frameworks, it is rational for us to give a brief impression and further analysis to the frameworks. And the factors we use are listed as follows:
-\subsection{Learning and Implementation **** edit(and other factors)}
+\subsection{Learning and Implementation}
 
+\subsection{Training Effect Evaluation}
 
+\subsection{Training Time Evaluation}
 
 \section{Future Work}
-As we have spent most of dealing with the dataset, there're still many works need to be implementation.
-As for the model part, thought we've tried the 
+As we have spent most of dealing with the dataset, there're still many works need to be accomplished.
+As for the model part, thought we've tried the several neural networks and choose {\it Three-layers Fully Connected Networks}, {\it Variant of Lenet} and {\it VGG} to represent most performance of our model, there're still many networks may work well, but we haven't tried yet.\\
+Recurrent Neural Network performances well in many cases of Natural Language Processing in recent works. We guess it may also improve our model to some extent. And like Alex et al.,[14] work on Speech Recognition, RNNs may have a result out of expectation.\\
+For three frameworks, there're still some problems remain to be solved. Just like MXNet, many researchers will suffer from its poor documents. Therefore, some of the effect or implementation of the embedded functions must be learnt from its open-source code. Meanwhile, MXNet has a well-performed encapsulation and module, therefore, their still many embedded functions is left to do some research. Maybe it can be another aspect for the framework evaluation.\\
+
 
 \section{Conclusion}
 
 \section{Reference}
+[14] Alex Graves, Navdeep Jaitly, {\it Towards End-to-End Speech Recognition with Recurrent Neural Networks}
+
 
 \end{document}
 
